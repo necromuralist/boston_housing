@@ -1,0 +1,56 @@
+Model Prediction
+================
+<<name='imports', echo=False>>=
+# third-party
+import pandas
+from sklearn.datasets import load_boston
+
+# this code
+from boston_housing.common import load_housing_data, CLIENT_FEATURES
+from boston_housing.evaluating_model_performance import fit_model
+@
+<<name='setup', echo=False>>=
+housing_frame = pandas.read_hdf('data/housing_data.h5', 'table')
+housing_data = load_housing_data()
+model = fit_model(housing_data.features, housing_data.prices)
+@
+
+Question 10
+-----------
+
+*Using grid search on the entire dataset, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your intial intuition?*
+
+<<name='optimal_parameters', echo=False>>=
+print( "Final model optimal parameters:", model.best_params_)
+@
+
+The optimal max-depth parameter was 1, which did not match my intuitive interpretation, as I thought that the more complex models did better, and specifically that a max-depth of 6 was optimal for this data set.
+
+Question 11
+-----------
+
+*With your parameter-tuned model, what is the best selling price for your client's home? How does this selling price compare to the basic statistics you calculated on the dataset?*
+
+.. '
+
+<<name='predicted_price', echo=False>>=
+sale_price = model.predict(CLIENT_FEATURES)
+predicted = sale_price[0] * 1000
+actual_median = housing_frame.median_value.median() * 1000
+print ("Predicted value of client's home: ${0:,.2f}".format(predicted))
+print("Median Value - predicted: ${0:,.2f}".format(actual_median - predicted))
+@
+
+My three chosen features (`lower_status`, `nitric_oxide`, and `rooms`) seemed to indicate that the client's house might be a lower-valued house, and the predicted value was about $1,266 less than the median median-value, so our model predicts that the client has a below-median-value house.
+
+.. '
+
+Question 12
+-----------
+
+*In a few sentences, discuss whether you would use this model or not to predict the selling price of future clients' homes in the Greater Boston area.*
+
+While the model does seem to predict a reasonable prec, I don't think that I would use this model (exclusively). The optimal model with a max-depth of 1 showed a high-bias and I suspect this underfits the data. I think this might be a good baseline model, but I would need to see other models before feeling confident that the predictions are valid.
+
+
+
