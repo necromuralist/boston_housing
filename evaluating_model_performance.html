@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Evaluating Model Performance &mdash; Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2016.02.21',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation" href="index.html" />
+    <link rel="next" title="boston_housing.evaluating_model_performance.shuffle_split_data" href="api/boston_housing.evaluating_model_performance.shuffle_split_data.html" />
+    <link rel="prev" title="Statistical Analysis and Data Exploration" href="statistical_analysis.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Project 1 (Predicting Boston Housing Prices)</a>
+        <span class="navbar-text navbar-version pull-left"><b>2016.02.21</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="statistical_analysis.html">Statistical Analysis and Data Exploration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Evaluating Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyzing_model_performance.html">Analyzing Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_prediction.html">Model Prediction</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Evaluating Model Performance</a><ul>
+<li><a class="reference internal" href="#question-3">Question 3</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#question-4">Question 4</a></li>
+<li><a class="reference internal" href="#step-4-final-step">Step 4 (Final Step)</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#question-5">Question 5</a></li>
+<li><a class="reference internal" href="#question-6">Question 6</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="statistical_analysis.html" title="Previous Chapter: Statistical Analysis and Data Exploration"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Statistical A...</span>
+    </a>
+  </li>
+  <li>
+    <a href="api/boston_housing.evaluating_model_performance.shuffle_split_data.html" title="Next Chapter: boston_housing.evaluating_model_performance.shuffle_split_data"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">boston_housin... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/evaluating_model_performance.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="evaluating-model-performance">
+<h1>Evaluating Model Performance<a class="headerlink" href="#evaluating-model-performance" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/boston_housing.evaluating_model_performance.shuffle_split_data.html#boston_housing.evaluating_model_performance.shuffle_split_data" title="boston_housing.evaluating_model_performance.shuffle_split_data"><code class="xref py py-obj docutils literal"><span class="pre">shuffle_split_data</span></code></a>(X,&nbsp;y[,&nbsp;test_size,&nbsp;...])</td>
+<td>Shuffles and splits data into training and testing subsets</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/sklearn.cross_validation.train_test_split.html#sklearn.cross_validation.train_test_split" title="sklearn.cross_validation.train_test_split"><code class="xref py py-obj docutils literal"><span class="pre">train_test_split</span></code></a>(*arrays,&nbsp;**options)</td>
+<td>Split arrays or matrices into random train and test subsets</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="question-3">
+<h2>Question 3<a class="headerlink" href="#question-3" title="Permalink to this headline">¶</a></h2>
+<p><em>Why do we split the data into training and testing subsets for our model?</em></p>
+<p>We split the data into training and testing subsets so that we can assess the model using a different data-set than what it
+was trained on, thus reducing the likelihood of overfitting the model to the training data and increasing the likelihood that it will generalize to other data.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/boston_housing.evaluating_model_performance.performance_metric.html#boston_housing.evaluating_model_performance.performance_metric" title="boston_housing.evaluating_model_performance.performance_metric"><code class="xref py py-obj docutils literal"><span class="pre">performance_metric</span></code></a>(y_true,&nbsp;y_predict)</td>
+<td>Calculates total error between true and predicted values</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/sklearn.metrics.mean_squared_error.html#sklearn.metrics.mean_squared_error" title="sklearn.metrics.mean_squared_error"><code class="xref py py-obj docutils literal"><span class="pre">mean_squared_error</span></code></a>(y_true,&nbsp;y_pred[,&nbsp;...])</td>
+<td>Mean squared error regression loss</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="question-4">
+<h2>Question 4<a class="headerlink" href="#question-4" title="Permalink to this headline">¶</a></h2>
+<p><em>Which performance metric below did you find was most appropriate for predicting housing prices and analyzing the total error. Why?</em> - <em>Accuracy</em> - <em>Precision</em> - <em>Recall</em> - <em>F1 Score</em> - <em>Mean Squared Error (MSE)</em> - <em>Mean Absolute Error (MAE)</em></p>
+<p>I chose <em>Mean Squared Error</em> as the most appropriate performance metric for predicting housing prices because we are predicting a numeric value (a regression problem) and while Mean Absolute Error could also be used, the MSE emphasizes larger errors more and so I felt it would be preferable.</p>
+</div>
+<div class="section" id="step-4-final-step">
+<h2>Step 4 (Final Step)<a class="headerlink" href="#step-4-final-step" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/boston_housing.evaluating_model_performance.fit_model.html#boston_housing.evaluating_model_performance.fit_model" title="boston_housing.evaluating_model_performance.fit_model"><code class="xref py py-obj docutils literal"><span class="pre">fit_model</span></code></a>(X,&nbsp;y)</td>
+<td>Tunes a decision tree regressor model using GridSearchCV</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor" title="sklearn.tree.DecisionTreeRegressor"><code class="xref py py-obj docutils literal"><span class="pre">DecisionTreeRegressor</span></code></a>([criterion,&nbsp;splitter,&nbsp;...])</td>
+<td>A decision tree regressor.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="question-5">
+<h2>Question 5<a class="headerlink" href="#question-5" title="Permalink to this headline">¶</a></h2>
+<p><em>What is the grid search algorithm and when is it applicable?</em></p>
+<p>The <a class="reference external" href="http://scikit-learn.org/stable/modules/grid_search.html">GridSearchCV</a> algorithm exhaustively works through the parameters it is given to find the parameters that create the best model using cross-validation. Because it is exhaustive it is appropriate when the model-creation is not excessively computationally intensive, otherwise its run-time might be infeasible.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/sklearn.grid_search.GridSearchCV.html#sklearn.grid_search.GridSearchCV" title="sklearn.grid_search.GridSearchCV"><code class="xref py py-obj docutils literal"><span class="pre">GridSearchCV</span></code></a>(estimator,&nbsp;param_grid[,&nbsp;...])</td>
+<td>Exhaustive search over specified parameter values for an estimator.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="question-6">
+<h2>Question 6<a class="headerlink" href="#question-6" title="Permalink to this headline">¶</a></h2>
+<p><em>What is cross-validation, and how is it performed on a model? Why would cross-validation be helpful when using grid search?</em></p>
+<p>Cross-validation is a method of testing a model by partitioning the data into subsets, with each subset taking a turn as the test set while the data not being used as a test-set is used as the training set. This allows the model to be tested against all the data-points, rather than having some data reserved exclusively as training data and the remainder exclusively as testing data.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Russell Nakamura.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

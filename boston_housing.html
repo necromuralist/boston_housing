@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Machine Learning Engineer Nanodegree &mdash; Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2016.02.21',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Project 1 (Predicting Boston Housing Prices)</a>
+        <span class="navbar-text navbar-version pull-left"><b>2016.02.21</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="statistical_analysis.html">Statistical Analysis and Data Exploration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluating_model_performance.html">Evaluating Model Performance</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Machine Learning Engineer Nanodegree</a><ul>
+<li><a class="reference internal" href="#model-evaluation-validation">Model Evaluation &amp; Validation</a></li>
+<li><a class="reference internal" href="#project-1-predicting-boston-housing-prices">Project 1: Predicting Boston Housing Prices</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#statistical-analysis-and-data-exploration">Statistical Analysis and Data Exploration</a><ul>
+<li><a class="reference internal" href="#step-1">Step 1</a></li>
+<li><a class="reference internal" href="#question-1">Question 1</a></li>
+<li><a class="reference internal" href="#question-2">Question 2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluating-model-performance">Evaluating Model Performance</a><ul>
+<li><a class="reference internal" href="#step-2">Step 2</a></li>
+<li><a class="reference internal" href="#question-4">Question 4</a></li>
+<li><a class="reference internal" href="#step-3">Step 3</a></li>
+<li><a class="reference internal" href="#id5">Question 4</a></li>
+<li><a class="reference internal" href="#step-4-final-step">Step 4 (Final Step)</a></li>
+<li><a class="reference internal" href="#question-5">Question 5</a></li>
+<li><a class="reference internal" href="#question-6">Question 6</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#checkpoint">Checkpoint!</a></li>
+<li><a class="reference internal" href="#analyzing-model-performance">Analyzing Model Performance</a><ul>
+<li><a class="reference internal" href="#question-7">Question 7</a></li>
+<li><a class="reference internal" href="#question-8">Question 8</a></li>
+<li><a class="reference internal" href="#question-9">Question 9</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#model-prediction">Model Prediction</a><ul>
+<li><a class="reference internal" href="#question-10">Question 10</a></li>
+<li><a class="reference internal" href="#question-11">Question 11</a></li>
+<li><a class="reference internal" href="#question-12-final-question">Question 12 (Final Question):</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/boston_housing.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="machine-learning-engineer-nanodegree">
+<h1>Machine Learning Engineer Nanodegree<a class="headerlink" href="#machine-learning-engineer-nanodegree" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-evaluation-validation">
+<h2>Model Evaluation &amp; Validation<a class="headerlink" href="#model-evaluation-validation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="project-1-predicting-boston-housing-prices">
+<h2>Project 1: Predicting Boston Housing Prices<a class="headerlink" href="#project-1-predicting-boston-housing-prices" title="Permalink to this headline">¶</a></h2>
+<p>Welcome to the first project of the Machine Learning Engineer
+Nanodegree! In this notebook, some template code has already been
+written. You will need to implement additional functionality to
+successfully answer all of the questions for this project. Unless it is
+requested, do not modify any of the code that has already been included.
+In this template code, there are four sections which you must complete
+to successfully produce a prediction with your model. Each section where
+you will write code is preceded by a <strong>STEP X</strong> header with comments
+describing what must be done. Please read the instructions carefully!</p>
+<p>In addition to implementing code, there will be questions that you must
+answer that relate to the project and your implementation. Each section
+where you will answer a question is preceded by a <strong>QUESTION X</strong> header.
+Be sure that you have carefully read each question and provide thorough
+answers in the text boxes that begin with &#8220;<strong>Answer:</strong>&#8221;. Your project
+submission will be evaluated based on your answers to each of the
+questions.</p>
+<p>A description of the dataset can be found
+<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/Housing">here</a>, which is
+provided by the <strong>UCI Machine Learning Repository</strong>.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>To familiarize yourself with an iPython Notebook, <strong>try double clicking
+on this cell</strong>. You will notice that the text changes so that all the
+formatting is removed. This allows you to make edits to the block of
+text you see here. This block of text (and mostly anything that&#8217;s not
+code) is written using
+<a class="reference external" href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>, which
+is a way to format text using headers, links, italics, and many other
+options! Whether you&#8217;re editing a Markdown text block or a code block
+(like the one below), you can use the keyboard shortcut <strong>Shift +
+Enter</strong> or <strong>Shift + Return</strong> to execute the code or text block. In this
+case, it will show the formatted text.</p>
+<p>Let&#8217;s start by setting up some code we will need to get the rest of the
+project up and running. Use the keyboard shortcut mentioned above on the
+following code block to execute it. Alternatively, depending on your
+iPython Notebook program, you can press the <strong>Play</strong> button in the
+hotbar. You&#8217;ll know the code block executes successfully if the message
+<em>&#8220;Boston Housing dataset loaded successfully!&#8221;</em> is printed.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span># Importing a few necessary libraries
+# python standard library
+import warnings
+
+# third party
+import numpy as np
+import numpy
+import matplotlib.pyplot as pl
+from matplotlib import pylab
+import pandas
+import seaborn
+from sklearn import datasets
+from sklearn.tree import DecisionTreeRegressor
+
+# Make matplotlib show our plots inline (nicely formatted in the notebook)
+%matplotlib inline
+
+# Create our client&#39;s feature set for which we will be predicting a selling price
+CLIENT_FEATURES = [[11.95, 0.00, 18.100, 0, 0.6590, 5.6090, 90.00, 1.385, 24, 680.0, 20.20, 332.09, 12.13]]
+
+# Load the Boston Housing dataset into the city_data variable
+city_data = datasets.load_boston()
+
+# Initialize the housing prices and housing features
+housing_prices = city_data.target
+housing_features = city_data.data
+
+print &quot;Boston Housing dataset loaded successfully!&quot;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Boston Housing dataset loaded successfully!
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">pylab</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;crime big_lots industrial charles_river nox rooms old distance highway_access tax_rate pupil_teacher_ratio blacks lower_status&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="n">housing_features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">CLIENT_FEATURES</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">client_data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">CLIENT_FEATURES</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">housing_data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">housing_features</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">housing_data</span><span class="p">[</span><span class="s1">&#39;median_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">housing_prices</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">housing_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+<pre class="literal-block">
+            crime    big_lots  industrial  charles_river         nox  count  506.000000  506.000000  506.000000     506.000000  506.000000
+mean     3.593761   11.363636   11.136779       0.069170    0.554695
+std      8.596783   23.322453    6.860353       0.253994    0.115878
+min      0.006320    0.000000    0.460000       0.000000    0.385000
+25%      0.082045    0.000000    5.190000       0.000000    0.449000
+50%      0.256510    0.000000    9.690000       0.000000    0.538000
+75%      3.647423   12.500000   18.100000       0.000000    0.624000
+max     88.976200  100.000000   27.740000       1.000000    0.871000
+
+            rooms         old    distance  highway_access    tax_rate  count  506.000000  506.000000  506.000000      506.000000  506.000000
+mean     6.284634   68.574901    3.795043        9.549407  408.237154
+std      0.702617   28.148861    2.105710        8.707259  168.537116
+min      3.561000    2.900000    1.129600        1.000000  187.000000
+25%      5.885500   45.025000    2.100175        4.000000  279.000000
+50%      6.208500   77.500000    3.207450        5.000000  330.000000
+75%      6.623500   94.075000    5.188425       24.000000  666.000000
+max      8.780000  100.000000   12.126500       24.000000  711.000000
+
+       pupil_teacher_ratio      blacks  lower_status  median_value
+count           506.000000  506.000000    506.000000    506.000000
+mean             18.455534  356.674032     12.653063     22.532806
+std               2.164946   91.294864      7.141062      9.197104
+min              12.600000    0.320000      1.730000      5.000000
+25%              17.400000  375.377500      6.950000     17.025000
+50%              19.050000  391.440000     11.360000     21.200000
+75%              20.200000  396.225000     16.955000     25.000000
+max              22.000000  396.900000     37.970000     50.000000
+</pre>
+</div>
+<div class="section" id="statistical-analysis-and-data-exploration">
+<h1>Statistical Analysis and Data Exploration<a class="headerlink" href="#statistical-analysis-and-data-exploration" title="Permalink to this headline">¶</a></h1>
+<p>In this first section of the project, you will quickly investigate a few
+basic statistics about the dataset you are working with. In addition,
+you&#8217;ll look at the client&#8217;s feature set in <code class="docutils literal"><span class="pre">CLIENT_FEATURES</span></code> and see
+how this particular sample relates to the features of the dataset.
+Familiarizing yourself with the data through an explorative process is a
+fundamental practice to help you better understand your results.</p>
+<div class="section" id="step-1">
+<h2>Step 1<a class="headerlink" href="#step-1" title="Permalink to this headline">¶</a></h2>
+<p>In the code block below, use the imported <code class="docutils literal"><span class="pre">numpy</span></code> library to calculate
+the requested statistics. You will need to replace each <code class="docutils literal"><span class="pre">None</span></code> you
+find with the appropriate <code class="docutils literal"><span class="pre">numpy</span></code> coding for the proper statistic to
+be printed. Be sure to execute the code block each time to test if your
+implementation is working successfully. The print statements will show
+the statistics you calculate!</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Number of houses in the dataset</span>
+<span class="n">total_houses</span> <span class="o">=</span> <span class="n">housing_features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Number of features in the dataset</span>
+<span class="n">total_features</span> <span class="o">=</span> <span class="n">housing_features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Minimum housing value in the dataset</span>
+<span class="n">minimum_price</span> <span class="o">=</span> <span class="n">housing_prices</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+<span class="c1"># Maximum housing value in the dataset</span>
+<span class="n">maximum_price</span> <span class="o">=</span> <span class="n">housing_prices</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="c1"># Mean house value of the dataset</span>
+<span class="n">mean_price</span> <span class="o">=</span> <span class="n">housing_prices</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Median house value of the dataset</span>
+<span class="n">median_price</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">housing_prices</span><span class="p">)</span>
+
+<span class="c1"># Standard deviation of housing values of the dataset</span>
+<span class="n">std_dev</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">housing_prices</span><span class="p">)</span>
+
+<span class="c1"># Show the calculated statistics</span>
+<span class="k">print</span> <span class="s2">&quot;Boston Housing dataset statistics (in $1000&#39;s):</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">print</span> <span class="s2">&quot;Total number of houses:&quot;</span><span class="p">,</span> <span class="n">total_houses</span>
+<span class="k">print</span> <span class="s2">&quot;Total number of features:&quot;</span><span class="p">,</span> <span class="n">total_features</span>
+<span class="k">print</span> <span class="s2">&quot;Minimum house price:&quot;</span><span class="p">,</span> <span class="n">minimum_price</span>
+<span class="k">print</span> <span class="s2">&quot;Maximum house price:&quot;</span><span class="p">,</span> <span class="n">maximum_price</span>
+<span class="k">print</span> <span class="s2">&quot;Mean house price: {0:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean_price</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Median house price:&quot;</span><span class="p">,</span> <span class="n">median_price</span>
+<span class="k">print</span> <span class="s2">&quot;Standard deviation of house price: {0:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">std_dev</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Boston Housing dataset statistics (in $1000&#39;s):
+
+Total number of houses: 506
+Total number of features: 13
+Minimum house price: 5.0
+Maximum house price: 50.0
+Mean house price: 22.533
+Median house price: 21.2
+Standard deviation of house price: 9.188
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">axe</span> <span class="o">=</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">housing_data</span><span class="o">.</span><span class="n">median_value</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="n">axe</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Median Housing Prices&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e9023b250&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="question-1">
+<h2>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">¶</a></h2>
+<p>As a reminder, you can view a description of the Boston Housing dataset
+<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/Housing">here</a>, where you
+can find the different features under <strong>Attribute Information</strong>. The
+<code class="docutils literal"><span class="pre">MEDV</span></code> attribute relates to the values stored in our
+<code class="docutils literal"><span class="pre">housing_prices</span></code> variable, so we do not consider that a feature of the
+data.</p>
+<p><em>Of the features available for each data point, choose three that you
+feel are significant and give a brief description for each of what they
+measure.</em></p>
+<p>Remember, you can <strong>double click the text box below</strong> to add your
+answer!</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">housing_data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="s1">&#39;median_value&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">housing_data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">axe</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">axe</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;{0} vs price&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">column</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e671a37d0&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e6721e4d0&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e67304c90&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e673cdf10&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e6742c110&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e674e6a10&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e67472190&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e6760a850&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e676ec610&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e6766f0d0&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e679f6c90&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e6797b9d0&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e679d7b10&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e901de610&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>/home/charon/.virtualenvs/machinelearning/local/lib/python2.7/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str(&#39;face&#39;):
+</pre></div>
+</div>
+<p>CRIM - the per-capita crime rate. INDUS - the proportion of non-retail
+business acres per town. LSTAT - the percentage of the population that
+is of lower status.</p>
+</div>
+<div class="section" id="question-2">
+<h2>Question 2<a class="headerlink" href="#question-2" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><em>Using your client&#8217;s feature set ``CLIENT_FEATURES``, which values
+correspond with the features you&#8217;ve chosen above?</em></div>
+<div class="line"><a href="#id1"><span class="problematic" id="id2">**</span></a>Hint: ** Run the code block below to see the client&#8217;s data.</div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span> <span class="n">CLIENT_FEATURES</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">11.95</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">18.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.659</span><span class="p">,</span> <span class="mf">5.609</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">1.385</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mf">680.0</span><span class="p">,</span> <span class="mf">20.2</span><span class="p">,</span> <span class="mf">332.09</span><span class="p">,</span> <span class="mf">12.13</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">client_data</span><span class="o">.</span><span class="n">crime</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">client_data</span><span class="o">.</span><span class="n">industrial</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">client_data</span><span class="o">.</span><span class="n">lower_status</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>0    11.95
+Name: crime, dtype: float64
+0    18.1
+Name: industrial, dtype: float64
+0    12.13
+Name: lower_status, dtype: float64
+</pre></div>
+</div>
+<p>CRIM : 11.95, INDUS: 18.1, LSTAT: 12.13</p>
+</div>
+</div>
+<div class="section" id="evaluating-model-performance">
+<h1>Evaluating Model Performance<a class="headerlink" href="#evaluating-model-performance" title="Permalink to this headline">¶</a></h1>
+<p>In this second section of the project, you will begin to develop the
+tools necessary for a model to make a prediction. Being able to
+accurately evaluate each model&#8217;s performance through the use of these
+tools helps to greatly reinforce the confidence in your predictions.</p>
+<div class="section" id="step-2">
+<h2>Step 2<a class="headerlink" href="#step-2" title="Permalink to this headline">¶</a></h2>
+<p>In the code block below, you will need to implement code so that the
+<code class="docutils literal"><span class="pre">shuffle_split_data</span></code> function does the following: - Randomly shuffle
+the input data <code class="docutils literal"><span class="pre">X</span></code> and target labels (housing values) <code class="docutils literal"><span class="pre">y</span></code>. - Split
+the data into training and testing subsets, holding 30% of the data for
+testing.</p>
+<div class="line-block">
+<div class="line">If you use any functions not already acessible from the imported
+libraries above, remember to include your import statement below as
+well!</div>
+<div class="line">Ensure that you have executed the code block once you are done. You&#8217;ll
+know if the <code class="docutils literal"><span class="pre">shuffle_split_data</span></code> function is working if the
+statement <em>&#8220;Successfully shuffled and split the data!&#8221;</em> is printed.</div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Put any import statements you need for this code block here</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">cross_validation</span>
+<span class="k">def</span> <span class="nf">shuffle_split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Shuffles and splits data into 70% training and 30% testing subsets,</span>
+<span class="sd">        then returns the training and testing subsets. &quot;&quot;&quot;</span>
+
+    <span class="c1"># Shuffle and split the data</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">cross_validation</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+                                                                         <span class="n">y</span><span class="p">,</span>
+                                                                         <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span>
+                                                                         <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Return the training and testing data subsets</span>
+    <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span>
+
+
+<span class="c1"># Test shuffle_split_data</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">shuffle_split_data</span><span class="p">(</span><span class="n">housing_features</span><span class="p">,</span> <span class="n">housing_prices</span><span class="p">)</span>
+<span class="n">feature_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">housing_features</span><span class="p">)</span>
+<span class="n">train_length</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">feature_length</span><span class="p">)</span>
+<span class="n">test_length</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="o">.</span><span class="mi">3</span> <span class="o">*</span> <span class="n">feature_length</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">==</span> <span class="n">train_length</span><span class="p">,</span> <span class="s2">&quot;Expected: {0} Actual: {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">feature_length</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="o">==</span> <span class="n">test_length</span><span class="p">,</span> <span class="s2">&quot;Expected: {0} Actual: {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="o">.</span><span class="mi">3</span> <span class="o">*</span> <span class="n">feature_length</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">==</span> <span class="n">train_length</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span> <span class="o">==</span> <span class="n">test_length</span>
+<span class="k">print</span> <span class="s2">&quot;Successfully shuffled and split the data!&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Successfully shuffled and split the data!
+</pre></div>
+</div>
+</div>
+<div class="section" id="question-4">
+<h2>Question 4<a class="headerlink" href="#question-4" title="Permalink to this headline">¶</a></h2>
+<p><em>Why do we split the data into training and testing subsets for our
+model?</em></p>
+<p>So that we can assess the model using a different data-set than what it
+was trained on, thus reducing the likelihood of overfitting the model to
+the training data and increasing the likelihood that it will generalize
+to other data.</p>
+</div>
+<div class="section" id="step-3">
+<h2>Step 3<a class="headerlink" href="#step-3" title="Permalink to this headline">¶</a></h2>
+<p>In the code block below, you will need to implement code so that the
+<code class="docutils literal"><span class="pre">performance_metric</span></code> function does the following: - Perform a total
+error calculation between the true values of the <code class="docutils literal"><span class="pre">y</span></code> labels <code class="docutils literal"><span class="pre">y_true</span></code>
+and the predicted values of the <code class="docutils literal"><span class="pre">y</span></code> labels <code class="docutils literal"><span class="pre">y_predict</span></code>.</p>
+<p>You will need to first choose an appropriate performance metric for this
+problem. See <a class="reference external" href="http://scikit-learn.org/stable/modules/classes.html#sklearn-metrics-metrics">the sklearn metrics
+documentation</a>
+to view a list of available metric functions. <a href="#id3"><span class="problematic" id="id4">**</span></a>Hint: ** Look at the
+question below to see a list of the metrics that were covered in the
+supporting course for this project.</p>
+<div class="line-block">
+<div class="line">Once you have determined which metric you will use, remember to
+include the necessary import statement as well!</div>
+<div class="line">Ensure that you have executed the code block once you are done. You&#8217;ll
+know if the <code class="docutils literal"><span class="pre">performance_metric</span></code> function is working if the
+statement <em>&#8220;Successfully performed a metric calculation!&#8221;</em> is printed.</div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Put any import statements you need for this code block here</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="k">def</span> <span class="nf">performance_metric</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculates and returns the total error between true and predicted values</span>
+<span class="sd">        based on a performance metric chosen by the student. &quot;&quot;&quot;</span>
+
+    <span class="n">error</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">error</span>
+
+
+<span class="c1"># Test performance_metric</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">total_error</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s2">&quot;Successfully performed a metric calculation!&quot;</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s2">&quot;Something went wrong with performing a metric calculation.&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Successfully performed a metric calculation!
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Question 4<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p><em>Which performance metric below did you find was most appropriate for
+predicting housing prices and analyzing the total error. Why?</em> -
+<em>Accuracy</em> - <em>Precision</em> - <em>Recall</em> - <em>F1 Score</em> - <em>Mean Squared Error
+(MSE)</em> - <em>Mean Absolute Error (MAE)</em></p>
+<p>Mean Squared Error was the most appropriate performance metric for
+predicting housing prices because we are predicting a numeric value
+(this is a regression problem) and while Mean Absolute Error could also
+be used, the MSE emphasizes larger errors more (due to the squaring) and
+so is preferable.</p>
+</div>
+<div class="section" id="step-4-final-step">
+<h2>Step 4 (Final Step)<a class="headerlink" href="#step-4-final-step" title="Permalink to this headline">¶</a></h2>
+<p>In the code block below, you will need to implement code so that the
+<code class="docutils literal"><span class="pre">fit_model</span></code> function does the following: - Create a scoring function
+using the same performance metric as in <strong>Step 2</strong>. See the <cite>sklearn
+``make_scorer`</cite>
+documentation &lt;<a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html">http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html</a>&gt;`__.
+- Build a GridSearchCV object using <code class="docutils literal"><span class="pre">regressor</span></code>, <code class="docutils literal"><span class="pre">parameters</span></code>, and
+<code class="docutils literal"><span class="pre">scoring_function</span></code>. See the <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html">sklearn documentation on
+GridSearchCV</a>.</p>
+<p>When building the scoring function and GridSearchCV object, <em>be sure
+that you read the parameters documentation thoroughly.</em> It is not always
+the case that a default parameter for a function is the appropriate
+setting for the problem you are working on.</p>
+<div class="line-block">
+<div class="line">Since you are using <code class="docutils literal"><span class="pre">sklearn</span></code> functions, remember to include the
+necessary import statements below as well!</div>
+<div class="line">Ensure that you have executed the code block once you are done. You&#8217;ll
+know if the <code class="docutils literal"><span class="pre">fit_model</span></code> function is working if the statement
+<em>&#8220;Successfully fit a model to the data!&#8221;</em> is printed.</div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Put any import statements you need for this code block</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">make_scorer</span>
+<span class="kn">from</span> <span class="nn">sklearn.grid_search</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Tunes a decision tree regressor model using GridSearchCV on the input data X</span>
+<span class="sd">        and target labels y and returns this optimal model. &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create a decision tree regressor object</span>
+    <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
+
+    <span class="c1"># Set up the parameters we wish to tune</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)}</span>
+
+    <span class="c1"># Make an appropriate scoring function</span>
+    <span class="n">scoring_function</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">)</span>
+
+    <span class="c1"># Make the GridSearchCV object</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring_function</span><span class="p">)</span>
+
+    <span class="c1"># Fit the learner to the data to obtain the optimal model with tuned parameters</span>
+    <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Return the optimal model</span>
+    <span class="k">return</span> <span class="n">reg</span>
+
+
+<span class="c1"># Test fit_model on entire dataset</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">housing_features</span><span class="p">,</span> <span class="n">housing_prices</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Successfully fit a model!&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Successfully fit a model!
+</pre></div>
+</div>
+</div>
+<div class="section" id="question-5">
+<h2>Question 5<a class="headerlink" href="#question-5" title="Permalink to this headline">¶</a></h2>
+<p><em>What is the grid search algorithm and when is it applicable?</em></p>
+<p>The GridSearchCV algorithm exhaustively works through the parameters it
+is given to tune the model. Because it is exhaustive it is appropriate
+when the parameters are relatively limited and the model-creation is not
+computationally intensive, otherwise its run-time might be infeasible.</p>
+</div>
+<div class="section" id="question-6">
+<h2>Question 6<a class="headerlink" href="#question-6" title="Permalink to this headline">¶</a></h2>
+<p><em>What is cross-validation, and how is it performed on a model? Why would
+cross-validation be helpful when using grid search?</em></p>
+<p>Cross-validation is a method of testing a model by partitioning the data
+into subsets, with each subset taking a turn as the test set while the
+data not being used as a test-set is used as the training set. This
+allows the model to be tested against all the data-points, rather than
+having some data reserved exclusively as training data and the remainder
+exclusively as testing data.</p>
+</div>
+</div>
+<div class="section" id="checkpoint">
+<h1>Checkpoint!<a class="headerlink" href="#checkpoint" title="Permalink to this headline">¶</a></h1>
+<p>You have now successfully completed your last code implementation
+section. Pat yourself on the back! All of your functions written above
+will be executed in the remaining sections below, and questions will be
+asked about various results for you to analyze. To prepare the
+<strong>Analysis</strong> and <strong>Prediction</strong> sections, you will need to intialize the
+two functions below. Remember, there&#8217;s no need to implement any more
+code, so sit back and execute the code blocks! Some code comments are
+provided if you find yourself interested in the functionality.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">learning_curves</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculates the performance of several models with varying sizes of training data.</span>
+<span class="sd">        The learning and testing error rates for each model are then plotted. &quot;&quot;&quot;</span>
+
+    <span class="k">print</span> <span class="s2">&quot;Creating learning curve graphs for max_depths of 1, 3, 6, and 10. . .&quot;</span>
+
+    <span class="c1"># Create the figure window</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+
+    <span class="c1"># We will vary the training set size so that we have 50 different sizes</span>
+    <span class="n">sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="n">train_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">))</span>
+    <span class="n">test_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">))</span>
+
+    <span class="c1"># Create four different models based on max_depth</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">depth</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">]):</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sizes</span><span class="p">):</span>
+
+            <span class="c1"># Setup a decision tree regressor so that it learns a tree with max_depth = depth</span>
+            <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="n">depth</span><span class="p">)</span>
+
+            <span class="c1"># Fit the learner to the training data</span>
+            <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:</span><span class="n">s</span><span class="p">],</span> <span class="n">y_train</span><span class="p">[:</span><span class="n">s</span><span class="p">])</span>
+
+            <span class="c1"># Find the performance on the training set</span>
+            <span class="n">train_err</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_train</span><span class="p">[:</span><span class="n">s</span><span class="p">],</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:</span><span class="n">s</span><span class="p">]))</span>
+
+            <span class="c1"># Find the performance on the testing set</span>
+            <span class="n">test_err</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+
+        <span class="c1"># Subplot the learning curve graph</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Testing Error&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">train_err</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Training Error&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;max_depth = </span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">depth</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Data Points in Training Set&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Total Error&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)])</span>
+
+    <span class="c1"># Visual aesthetics</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Decision Tree Regressor Learning Performances&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_complexity</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculates the performance of the model as model complexity increases.</span>
+<span class="sd">        The learning and testing errors rates are then plotted. &quot;&quot;&quot;</span>
+
+    <span class="k">print</span> <span class="s2">&quot;Creating a model complexity graph. . . &quot;</span>
+
+    <span class="c1"># We will vary the max_depth of a decision tree model from 1 to 14</span>
+    <span class="n">max_depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+    <span class="n">train_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">max_depth</span><span class="p">))</span>
+    <span class="n">test_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">max_depth</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">max_depth</span><span class="p">):</span>
+        <span class="c1"># Setup a Decision Tree Regressor so that it learns a tree with depth d</span>
+        <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="c1"># Fit the learner to the training data</span>
+        <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+        <span class="c1"># Find the performance on the training set</span>
+        <span class="n">train_err</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+
+        <span class="c1"># Find the performance on the testing set</span>
+        <span class="n">test_err</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+
+    <span class="c1"># Plot the model complexity graph</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Decision Tree Regressor Complexity Performance&#39;</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Testing Error&#39;</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">train_err</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Training Error&#39;</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Maximum Depth&#39;</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Total Error&#39;</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="analyzing-model-performance">
+<h1>Analyzing Model Performance<a class="headerlink" href="#analyzing-model-performance" title="Permalink to this headline">¶</a></h1>
+<p>In this third section of the project, you&#8217;ll take a look at several
+models&#8217; learning and testing error rates on various subsets of training
+data. Additionally, you&#8217;ll investigate one particular algorithm with an
+increasing <code class="docutils literal"><span class="pre">max_depth</span></code> parameter on the full training set to observe
+how model complexity affects learning and testing errors. Graphing your
+model&#8217;s performance based on varying criteria can be beneficial in the
+analysis process, such as visualizing behavior that may not have been
+apparent from the results alone.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+    <span class="n">learning_curves</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e67accd50&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Creating learning curve graphs for max_depths of 1, 3, 6, and 10. . .
+</pre></div>
+</div>
+<div class="section" id="question-7">
+<h2>Question 7<a class="headerlink" href="#question-7" title="Permalink to this headline">¶</a></h2>
+<p><em>Choose one of the learning curve graphs that are created above. What is
+the max depth for the chosen model? As the size of the training set
+increases, what happens to the training error? What happens to the
+testing error?</em></p>
+<p>Looking at the model with max-depth of 3, as the size of the training
+set increases, the training error gradually increases. The testing error
+initially decreases, the seems to more or less stabilize.</p>
+</div>
+<div class="section" id="question-8">
+<h2>Question 8<a class="headerlink" href="#question-8" title="Permalink to this headline">¶</a></h2>
+<p><em>Look at the learning curve graphs for the model with a max depth of 1
+and a max depth of 10. When the model is using the full training set,
+does it suffer from high bias or high variance when the max depth is 1?
+What about when the max depth is 10?</em></p>
+<p>The training and testing plots for the model with max-depth 1 move
+toward convergence with an error near 50, indicating a high bias (the
+model is too simple, and the additional data isn&#8217;t improving the
+generalization of the model). For the model with max-depth 1, the curves
+haven&#8217;t converged, and the training error remains near 0, indicating
+that it suffers from high variance, and should be improved with more
+data.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">model_complexity</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;matplotlib.figure.Figure at 0x7f1e67adaf90&gt;
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Creating a model complexity graph. . .
+</pre></div>
+</div>
+</div>
+<div class="section" id="question-9">
+<h2>Question 9<a class="headerlink" href="#question-9" title="Permalink to this headline">¶</a></h2>
+<p><em>From the model complexity graph above, describe the training and
+testing errors as the max depth increases. Based on your interpretation
+of the graph, which max depth results in a model that best generalizes
+the dataset? Why?</em></p>
+<p>As max-depth increases the training error improves, while the testing
+error decreases up until a depth of 6 and then begins a slight increase
+as the depth is increased. Based on this I would say that the max-depth
+of 6 created the model that best generalized the dataset, as it
+minimized the testing error.</p>
+</div>
+</div>
+<div class="section" id="model-prediction">
+<h1>Model Prediction<a class="headerlink" href="#model-prediction" title="Permalink to this headline">¶</a></h1>
+<p>In this final section of the project, you will make a prediction on the
+client&#8217;s feature set using an optimized model from <code class="docutils literal"><span class="pre">fit_model</span></code>. <em>To
+answer the following questions, it is recommended that you run the code
+blocks several times and use the median or mean value of the results.</em></p>
+<div class="section" id="question-10">
+<h2>Question 10<a class="headerlink" href="#question-10" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><em>Using grid search on the entire dataset, what is the optimal
+``max_depth`` parameter for your model? How does this result compare
+to your intial intuition?</em></div>
+<div class="line"><a href="#id6"><span class="problematic" id="id7">**</span></a>Hint: ** Run the code block below to see the max depth produced by
+your optimized model.</div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span> <span class="s2">&quot;Final model optimal parameters:&quot;</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Final model optimal parameters: {&#39;max_depth&#39;: 1}
+</pre></div>
+</div>
+<p>The optimal max-depth parameter was 1, which did not match my intuitive
+interpretation, as I thought that the more complex models did better,
+and specifically that a max-depth of 6 was optimal for this data set.</p>
+</div>
+<div class="section" id="question-11">
+<h2>Question 11<a class="headerlink" href="#question-11" title="Permalink to this headline">¶</a></h2>
+<p><em>With your parameter-tuned model, what is the best selling price for
+your client&#8217;s home? How does this selling price compare to the basic
+statistics you calculated on the dataset?</em></p>
+<p><a href="#id8"><span class="problematic" id="id9">**</span></a>Hint: ** Run the code block below to have your parameter-tuned model
+make a prediction on the client&#8217;s home.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">sale_price</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">CLIENT_FEATURES</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Predicted value of client&#39;s home: {0:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sale_price</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Predicted value of client&#39;s home: 19.934
+</pre></div>
+</div>
+<p>The predicted value of the client&#8217;s home is $19,934.</p>
+</div>
+<div class="section" id="question-12-final-question">
+<h2>Question 12 (Final Question):<a class="headerlink" href="#question-12-final-question" title="Permalink to this headline">¶</a></h2>
+<p><em>In a few sentences, discuss whether you would use this model or not to
+predict the selling price of future clients&#8217; homes in the Greater Boston
+area.</em></p>
+<p>I don&#8217;t think that I would use this model. The optimal model with a
+max-depth of 1 showed a high-bias and this likely underfits the data.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Russell Nakamura.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
