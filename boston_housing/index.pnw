@@ -17,6 +17,7 @@ from commoncode.index_builder import create_toctree
     Evaluating Model Performance <evaluating_model_performance>
     Analyzing Model Performance <analyzing_model_performance>
     Model Prediction <model_prediction>
+    Citations <citations>
     
 <<name='html_only', echo=False, results='sphinx', wrap=False>>=
 HTML_ONLY = strtobool(os.environ.get("HTML_ONLY", 'off'))

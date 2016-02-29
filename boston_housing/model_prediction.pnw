@@ -18,13 +18,13 @@ model = fit_model(housing_data.features, housing_data.prices)
 Question 10
 -----------
 
-*Using grid search on the entire dataset, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your intial intuition?*
+*Using grid search on the entire data set, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your initial intuition?*
 
 <<name='optimal_parameters', echo=False>>=
 print( "Final model optimal parameters:", model.best_params_)
 @
 
-The optimal max-depth parameter was 1, which did not match my intuitive interpretation, as I thought that the more complex models did better, and specifically that a max-depth of 6 was optimal for this data set.
+The optimal max-depth parameter was 1, which did not match my intuitive interpretation, as I thought that the more complex models did better, and specifically that a max-depth of 6 was optimal for this data set. The documentation for the DecisionTreeRegressor did note that setting the max-depth too high causes overfitting, which might be what happened in this case.
 
 Question 11
 -----------
@@ -50,7 +50,7 @@ Question 12
 
 *In a few sentences, discuss whether you would use this model or not to predict the selling price of future clients' homes in the Greater Boston area.*
 
-While the model does seem to predict a reasonable prec, I don't think that I would use this model (exclusively). The optimal model with a max-depth of 1 showed a high-bias and I suspect this underfits the data. I think this might be a good baseline model, but I would need to see other models before feeling confident that the predictions are valid.
+While the model does seem to predict a reasonable price, I don't think that I would use this model (exclusively). The optimal model with a max-depth of 1 showed a high-bias and I suspect this under fits the data. I think this might be a good baseline model, but I would need to see other models before feeling confident that the predictions are valid.
 
 
 
