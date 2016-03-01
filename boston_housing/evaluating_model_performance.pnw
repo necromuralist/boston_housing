@@ -101,7 +101,7 @@ Step 4 (Final Step)
 -------------------
 
 <<name='fit_model', echo=False>>=
-def fit_model(X, y, k=10):
+def fit_model(X, y, k=10, n_jobs=1):
     """ 
     Tunes a decision tree regressor model using GridSearchCV
 
@@ -109,6 +109,7 @@ def fit_model(X, y, k=10):
      - `X`:  the input data
      - `y`:  target labels y
      - `k`: number of cross-validation folds
+     - `n_jobs`: number of parallel jobs to run
     :return: the optimal model
     """
 
@@ -119,11 +120,12 @@ def fit_model(X, y, k=10):
     parameters = {'max_depth':(1,2,3,4,5,6,7,8,9,10)}
 
     # Make an appropriate scoring function
-    scoring_function = make_scorer(mean_squared_error)
+    scoring_function = make_scorer(mean_squared_error, greater_is_better=False)
 
     # Make the GridSearchCV object
     reg = GridSearchCV(regressor, param_grid=parameters,
-                       scoring=scoring_function, cv=k)
+                       scoring=scoring_function, cv=k,
+                       n_jobs=n_jobs)
 
     # Fit the learner to the data to obtain the optimal model with tuned parameters
     reg.fit(X, y)
@@ -172,3 +174,6 @@ Question 6
 
 Cross-validation is a method of testing a model by partitioning the data into subsets, with each subset taking a turn as the test set while the data not being used as a test-set is used as the training set. This allows the model to be tested against all the data-points, rather than having some data reserved exclusively as training data and the remainder exclusively as testing data.
 
+Because grid-search attempts to find the optimal parameters for a model, it's advantageous to use the same training and testing data in each case (case meaning a particular permutation of the parameters) so that the comparisons are equitable. One could simply perform an initial train-validation-test split and use this throughout the grid search, but this then risks the possibility that there was something in the initial split that will bias the outcome. By using all the partitions of the data as both test and training data, as cross-validation does, the chance of a bias in the splitting is reduced and at the same time all the parameter permutations are given the same data to be tested against.
+
+.. '

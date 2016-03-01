@@ -26,7 +26,7 @@ def shuffle_split_data(X, y, test_size=.3, random_state=0):
      - `y`: target array
      - `test_size`: fraction of data to use for testing
      - `random_state`: seed for the random number generator
-    :return: x-train, y-train, x-tets, y-test
+    :return: x-train, y-train, x-test, y-test
     """
     X_train, X_test, y_train, y_test =  train_test_split(X, y, test_size=test_size,
                                                          random_state=random_state)
@@ -49,7 +49,7 @@ tolerance = 0.01
 actual = performance_metric(numpy.arange(12), numpy.ones(12))
 assert abs(expected - actual) < tolerance
 
-def fit_model(X, y, k=10):
+def fit_model(X, y, k=10, n_jobs=1):
     """ 
     Tunes a decision tree regressor model using GridSearchCV
 
@@ -57,6 +57,7 @@ def fit_model(X, y, k=10):
      - `X`:  the input data
      - `y`:  target labels y
      - `k`: number of cross-validation folds
+     - `n_jobs`: number of parallel jobs to run
     :return: the optimal model
     """
 
@@ -67,11 +68,12 @@ def fit_model(X, y, k=10):
     parameters = {'max_depth':(1,2,3,4,5,6,7,8,9,10)}
 
     # Make an appropriate scoring function
-    scoring_function = make_scorer(mean_squared_error)
+    scoring_function = make_scorer(mean_squared_error, greater_is_better=False)
 
     # Make the GridSearchCV object
     reg = GridSearchCV(regressor, param_grid=parameters,
-                       scoring=scoring_function, cv=k)
+                       scoring=scoring_function, cv=k,
+                       n_jobs=n_jobs)
 
     # Fit the learner to the data to obtain the optimal model with tuned parameters
     reg.fit(X, y)

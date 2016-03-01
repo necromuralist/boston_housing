@@ -247,7 +247,7 @@ if rows % 3:
     print('.. image:: {0}'.format(filename))
 @
 
-Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb.
+Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison, 1978).
 
 Question 2
 ----------

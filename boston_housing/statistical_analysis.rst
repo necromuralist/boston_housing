@@ -28,7 +28,7 @@ Here is the description of the data variables provided by sklearn.
    NOX      :nitric oxides concentration (parts per 10 million)
    RM       :average number of rooms per dwelling
    AGE      :proportion of owner-occupied units built prior to 1940
-   DIS      :weighted distances to five Boston employment centres
+   DIS      :weighted distances to five Boston employment centers
    RAD      :index of accessibility to radial highways
    TAX      :full-value property-tax rate per $10,000
    PTRATIO  :pupil-teacher ratio by town
@@ -77,7 +77,7 @@ Summary Statistics
 
 
 
-.. csv-table:: Boston Housing dataset statistics (in $1000's)
+.. csv-table:: Boston Housing data-set statistics (in $1000's)
    :header: Item, Value
 
    Total number of instances,506
@@ -157,7 +157,7 @@ To get an idea of how the features are related to the median-value, I'll plot so
 
 
 
-Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb.
+Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison, 1978).
 
 Question 2
 ----------
