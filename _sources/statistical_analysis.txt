@@ -95,32 +95,32 @@ Plots
 -----
 
 
-.. image:: figures/median_value_distribution.png
+
+.. image:: figures/median_value_distribution.*
+   :align: center
+   :scale: 95%
 
 
 
 
-.. image:: figures/median_value_boxplots.png
-
-
-
-.. <<name='violinplot', results='sphinx', echo=False, include=False>>=
-.. filename = 'figures/median_value_violinplot.png'
-.. figure = plot.figure()
-.. axe = figure.gca()
-.. grid = seaborn.violinplot(housing_data.median_value, ax=axe)
-.. title = axe.set_title("Boston Housing Median Values")
-.. figure.savefig(filename)
-.. print(".. image:: {0}".format(filename))
-.. @
-
-
-.. image:: figures/median_value_qqplot.png
+.. image:: figures/median_value_boxplots.*
+   :align: center
+   :scale: 95%
 
 
 
 
-.. image:: figures/median_value_cdf.png
+
+.. image:: figures/median_value_qqplot.*
+   :align: center
+   :scale: 95%
+
+
+
+
+.. image:: figures/median_value_cdf.*
+   :align: center
+   :scale: 95%
 
 
 
@@ -143,13 +143,20 @@ To get an idea of how the features are related to the median-value, I'll plot so
 .. '
 
 
-.. image:: figures/housing_data_regression_plots_1.png
-.. image:: figures/housing_data_regression_plots_2.png
-.. image:: figures/housing_data_regression_plots_3.png
-.. image:: figures/housing_data_regression_plots_4.png
+.. image:: figures/housing_data_regression_plots_1.png.*
+   :align: center
+   :scale: 95%
+.. image:: figures/housing_data_regression_plots_2.png.*
+   :align: center
+   :scale: 95%
+.. image:: figures/housing_data_regression_plots_3.png.*
+   :align: center
+   :scale: 95%
+.. image:: figures/housing_data_regression_plots_4.png.*
+   :align: center
+   :scale: 95%
 
 
-|
 
 
 
@@ -157,7 +164,7 @@ To get an idea of how the features are related to the median-value, I'll plot so
 
 
 
-Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb.
+Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison, 1978).
 
 Question 2
 ----------

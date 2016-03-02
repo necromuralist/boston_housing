@@ -1,15 +1,19 @@
 Project 1 - Predicting Boston Housing Prices
 ============================================
 
+A pdf version is available :download:`here <boston_housing.pdf>`.
+
 
 
 
 .. toctree::
+   :maxdepth: 1
 
     Statistical Analysis and Data Exploration <statistical_analysis>
     Evaluating Model Performance <evaluating_model_performance>
     Analyzing Model Performance <analyzing_model_performance>
     Model Prediction <model_prediction>
+    Citations <citations>
     
 
 

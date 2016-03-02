@@ -303,25 +303,30 @@
 </div>
 <div class="section" id="plots">
 <h2>Plots<a class="headerlink" href="#plots" title="Permalink to this headline">¶</a></h2>
-<img alt="_images/median_value_distribution.png" src="_images/median_value_distribution.png" />
-<img alt="_images/median_value_boxplots.png" src="_images/median_value_boxplots.png" />
-<img alt="_images/median_value_qqplot.png" src="_images/median_value_qqplot.png" />
-<img alt="_images/median_value_cdf.png" src="_images/median_value_cdf.png" />
+<a class="reference internal image-reference" href="_images/median_value_distribution.svg"><div align="center" class="align-center"><img src="_images/median_value_distribution.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/median_value_boxplots.svg"><div align="center" class="align-center"><img src="_images/median_value_boxplots.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/median_value_qqplot.svg"><div align="center" class="align-center"><img src="_images/median_value_qqplot.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/median_value_cdf.svg"><div align="center" class="align-center"><img src="_images/median_value_cdf.svg" /></div>
+</a>
 <p>Looking at the distribution (histogram and KDE plot) and box-plot the median-values for the homes appear to be right-skewed. The CDF shows that about 90% of the homes are $35,000 or less (the 90th percentile for median-value is 34.8). The qq-plot and the other plots show that the median-values aren&#8217;t normally distributed.</p>
 </div>
 <div class="section" id="question-1">
 <h2>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">¶</a></h2>
 <p><em>Of the features available for each data point, choose three that you feel are significant and give a brief description for each of what they measure.</em></p>
 <p>To get an idea of how the features are related to the median-value, I&#8217;ll plot some linear-regressions.</p>
-<img alt="_images/housing_data_regression_plots_1.png" src="_images/housing_data_regression_plots_1.png" />
-<img alt="_images/housing_data_regression_plots_2.png" src="_images/housing_data_regression_plots_2.png" />
-<img alt="_images/housing_data_regression_plots_3.png" src="_images/housing_data_regression_plots_3.png" />
-<img alt="_images/housing_data_regression_plots_4.png" src="_images/housing_data_regression_plots_4.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_1.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_1.png.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_2.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_2.png.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_3.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_3.png.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_4.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_4.png.svg" /></div>
+</a>
 <img alt="_images/housing_data_regression_plots_5.png" src="_images/housing_data_regression_plots_5.png" />
-<p>Looking at the plots, the three features that I think are the most significant are <cite>lower_status (LSTAT)</cite>, <cite>nitric_oxide (NOX)</cite>, and <cite>rooms (RM)</cite>. The <cite>lower_status</cite> variable is the percent of the population of the town that is of &#8216;lower status&#8217; which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The <cite>nitric_oxide</cite> variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. <cite>rooms</cite> is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb.</p>
+<p>Looking at the plots, the three features that I think are the most significant are <cite>lower_status (LSTAT)</cite>, <cite>nitric_oxide (NOX)</cite>, and <cite>rooms (RM)</cite>. The <cite>lower_status</cite> variable is the percent of the population of the town that is of &#8216;lower status&#8217; which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The <cite>nitric_oxide</cite> variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. <cite>rooms</cite> is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison, 1978).</p>
 </div>
 <div class="section" id="question-2">
 <h2>Question 2<a class="headerlink" href="#question-2" title="Permalink to this headline">¶</a></h2>

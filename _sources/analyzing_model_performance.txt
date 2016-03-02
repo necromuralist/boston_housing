@@ -16,7 +16,9 @@ Learning Curves
 The learning curves for different max-depth parameters are plotted.
 
 
-.. image:: figures/learning_curves.png
+.. image:: figures/learning_curves.*
+   :align: center
+   :scale: 95%
 
 
 
@@ -35,13 +37,15 @@ Question 8
 
 The training and testing plots for the model with max-depth 1 move toward convergence with an error near 50, indicating a high bias (the model is too simple, and the additional data isn't improving the generalization of the model). 
 
-For the model with max-depth 1, the curves haven't converged, and the training error remains near 0, indicating that it suffers from high variance, and should be improved with more data.
+For the model with max-depth 10, the curves haven't converged, and the training error remains near 0, indicating that it suffers from high variance, and should be improved with more data.
 
 Model Complexity
 ----------------
 
 
-.. image:: figures/model_complexity.png
+.. image:: figures/model_complexity.*
+   :align: center
+   :scale: 95%
 
 
 
@@ -50,5 +54,5 @@ Question 9
 
 *From the model complexity graph above, describe the training and testing errors as the max depth increases. Based on your interpretation of the graph, which max depth results in a model that best generalizes the dataset? Why?*
 
-As max-depth increases the training error improves, while the testing error decreases up until a depth of 6 and then begins a slight increase as the depth is increased. Based on this I would say that the max-depth of 6 created the model that best generalized the data set, as it minimized the testing error.
+As max-depth increases the training error improves, while the testing error decreases up until a depth of 5 and then begins a slight increase as the depth is increased. Based on this I would say that the max-depth of 5 created the model that best generalized the data set, as it minimized the testing error.
 
