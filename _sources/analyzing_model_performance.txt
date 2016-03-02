@@ -50,5 +50,5 @@ Question 9
 
 *From the model complexity graph above, describe the training and testing errors as the max depth increases. Based on your interpretation of the graph, which max depth results in a model that best generalizes the dataset? Why?*
 
-As max-depth increases the training error improves, while the testing error decreases up until a depth of 6 and then begins a slight increase as the depth is increased. Based on this I would say that the max-depth of 6 created the model that best generalized the dataset, as it minimized the testing error.
+As max-depth increases the training error improves, while the testing error decreases up until a depth of 6 and then begins a slight increase as the depth is increased. Based on this I would say that the max-depth of 6 created the model that best generalized the data set, as it minimized the testing error.
 

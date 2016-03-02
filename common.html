@@ -81,7 +81,17 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Common Code</a></li>
+<li><a class="reference internal" href="#">Common Code</a><ul>
+<li><a class="reference internal" href="#datasets">Datasets</a></li>
+<li><a class="reference internal" href="#printing-tables">Printing Tables</a><ul>
+<li><a class="reference internal" href="#valuecountsprinter">ValueCountsPrinter</a></li>
+<li><a class="reference internal" href="#valueproportionsprinter">ValueProportionsPrinter</a></li>
+<li><a class="reference internal" href="#print-value-counts">print_value_counts</a></li>
+<li><a class="reference internal" href="#print-properties">print_properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -129,8 +139,11 @@
 
 <span class="c1"># third party</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
 </pre></div>
 </div>
+<div class="section" id="datasets">
+<h2>Datasets<a class="headerlink" href="#datasets" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-python"><div class="highlight"><pre><span></span>HousingData = namedtuple(&quot;HousingData&quot;, &#39;features prices
 names&#39;.split())
 def load_housing_data():
@@ -148,6 +161,224 @@ prices=city_data.target,
 <span class="mf">1.385</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span>
                     <span class="mf">680.0</span><span class="p">,</span> <span class="mf">20.20</span><span class="p">,</span> <span class="mf">332.09</span><span class="p">,</span> <span class="mf">12.13</span><span class="p">]]</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="printing-tables">
+<h2>Printing Tables<a class="headerlink" href="#printing-tables" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PrinterConstants</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">as_is</span> <span class="o">=</span> <span class="s1">&#39;{0}&#39;</span>
+    <span class="n">two_digits</span> <span class="o">=</span> <span class="s1">&#39;{0:.2f}&#39;</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="s1">&#39;Count&#39;</span>
+    <span class="n">proportion</span> <span class="o">=</span> <span class="s1">&#39;Proportion&#39;</span>
+<span class="c1"># end PrinterConstants</span>
+</pre></div>
+</div>
+<div class="section" id="valuecountsprinter">
+<h3>ValueCountsPrinter<a class="headerlink" href="#valuecountsprinter" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span>class ValueCountsPrinter(object):
+    &quot;&quot;&quot;
+    A class to print a value-counts table
+    &quot;&quot;&quot;
+    def __init__(self, value_counts,
+                 label,
+                 format_string=PrinterConstants.as_is,
+                 count_or_proportion=PrinterConstants.count):
+        &quot;&quot;&quot;
+        :param:
+         - `value_counts`: pandas value_counts Series
+         - `label`: header-label for the data
+         - `format_string`: format string for the count/proportion
+column
+         - `count_or_proportion`: Header for the count/proportion
+column
+        &quot;&quot;&quot;
+        self.value_counts = value_counts
+        self.label = label
+        self.format_string = format_string
+        self.count_or_proportion = count_or_proportion
+        self._first_width = None
+        self._second_width = None
+        self._row_format_string = None
+        self._header_string = None
+        self._top_separator = None
+        self._bottom_separator = None
+        self._sum_row = None
+        return
+
+    @property
+    def first_width(self):
+        &quot;&quot;&quot;
+        Width of first column&#39;s longest label
+        &quot;&quot;&quot;
+        if self._first_width is None:
+            self._first_width = len(self.label)
+            self._first_width = max(self._first_width,
+                                    max(len(str(i))
+                                        for i in
+self.value_counts.index))
+        return self._first_width
+
+    @property
+    def second_width(self):
+        &quot;&quot;&quot;
+        Width of the second column header
+        &quot;&quot;&quot;
+        if self._second_width is None:
+            self._second_width = len(self.count_or_proportion)
+        return self._second_width
+
+    @property
+    def row_format_string(self):
+        &quot;&quot;&quot;
+        Format-string for the rows
+        &quot;&quot;&quot;
+        if self._row_format_string is None:
+            self._row_format_string = &quot;{{0:&lt;{0}}}
+{{1:&gt;{1}}}&quot;.format(self.first_width,
+self.second_width)
+        return self._row_format_string
+
+    @property
+    def header_string(self):
+        &quot;&quot;&quot;
+        First line of the output
+        &quot;&quot;&quot;
+        if self._header_string is None:
+            self._header_string =
+self.row_format_string.format(self.label,
+self.count_or_proportion)
+        return self._header_string
+
+    @property
+    def top_separator(self):
+        &quot;&quot;&quot;
+        Separator between header and counts
+        &quot;&quot;&quot;
+        if self._top_separator is None:
+            self._top_separator = &#39;=&#39; *  (self.first_width +
+self.second_width + 1)
+        return self._top_separator
+
+    @property
+    def bottom_separator(self):
+        &quot;&quot;&quot;
+        Separator between counts and total
+        &quot;&quot;&quot;
+        if self._bottom_separator is None:
+            self._bottom_separator = &#39;-&#39; * len(self.top_separator)
+        return self._bottom_separator
+
+    @property
+    def sum_row(self):
+        &quot;&quot;&quot;
+        Final row with sum of count column
+        &quot;&quot;&quot;
+        if self._sum_row is None:
+            format_string = &#39;{{0}}
+{{1:&gt;{0}}}&#39;.format(self.second_width)
+            sum_value =
+self.format_string.format(self.value_counts.values.sum())
+            self._sum_row = format_string.format(&#39; &#39; *
+self.first_width,
+                                                 sum_value)
+        return self._sum_row
+
+    def __str__(self):
+        content = &#39;\n&#39;.join((self.row_format_string.format(value,
+self.format_string.format(self.value_counts.values[index]))
+                             for index,value in
+enumerate(self.value_counts.index)))
+        return &quot;{0}\n{1}\n{2}\n{3}\n{4}&quot;.format(self.header_string,
+                                                self.top_separator,
+                                                content,
+                                                self.bottom_separator,
+                                                self.sum_row)
+
+    def __call__(self):
+        &quot;&quot;&quot;
+        Convenience method to print the string
+        &quot;&quot;&quot;
+        print(str(self))
+# end ValueCountsPrinter
+</pre></div>
+</div>
+</div>
+<div class="section" id="valueproportionsprinter">
+<h3>ValueProportionsPrinter<a class="headerlink" href="#valueproportionsprinter" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ValueProportionsPrinter</span><span class="p">(</span><span class="n">ValueCountsPrinter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Printer for proportion tables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value_counts</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span>
+                 <span class="n">format_string</span><span class="o">=</span><span class="n">PrinterConstants</span><span class="o">.</span><span class="n">two_digits</span><span class="p">,</span>
+                 <span class="n">count_or_proportion</span><span class="o">=</span><span class="n">PrinterConstants</span><span class="o">.</span><span class="n">proportion</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ValueProportionsPrinter</span><span class="p">,</span>
+<span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">value_counts</span><span class="o">=</span><span class="n">value_counts</span><span class="p">,</span>
+                                                      <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+<span class="n">format_string</span><span class="o">=</span><span class="n">format_string</span><span class="p">,</span>
+<span class="n">count_or_proportion</span><span class="o">=</span><span class="n">count_or_proportion</span><span class="p">)</span>
+        <span class="k">return</span>
+<span class="c1"># end ValueProportionsPrinter</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="print-value-counts">
+<h3>print_value_counts<a class="headerlink" href="#print-value-counts" title="Permalink to this headline">¶</a></h3>
+<p>I think this was replaced by the <cite>ValueCountsPrinter</cite> above.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_value_counts</span><span class="p">(</span><span class="n">value_counts</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">format_string</span><span class="o">=</span><span class="s1">&#39;{0}&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    prints the value counts</span>
+<span class="sd">    :param:</span>
+<span class="sd">     - `value_counts`: pandas value_counts returned object</span>
+<span class="sd">     - `header`: list of header names (exactly two)</span>
+<span class="sd">     - `format_string`: format string for values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">first_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">value_counts</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">:</span>
+        <span class="n">first_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">first_width</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+<span class="n">value_counts</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+    <span class="n">second_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">format_string</span> <span class="o">=</span> <span class="s2">&quot;{{0:&lt;{0}}} {{1:&gt;{1}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first_width</span><span class="p">,</span>
+<span class="n">second_width</span><span class="p">)</span>
+
+    <span class="n">header_string</span> <span class="o">=</span> <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">header</span><span class="p">)</span>
+
+    <span class="n">top_separator</span> <span class="o">=</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">first_width</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">separator</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">top_separator</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">header_string</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">top_separator</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value_counts</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span>
+                                   <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value_counts</span>
+<span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">])))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;{0} {1:&gt;{2}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">first_width</span><span class="p">,</span>
+                                <span class="n">format_string</span>
+                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value_counts</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+                                <span class="n">second_width</span><span class="p">))</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="print-properties">
+<h3>print_properties<a class="headerlink" href="#print-properties" title="Permalink to this headline">¶</a></h3>
+<p>This was created to summarize the properties for a value in a data set to make creating a code-book easier.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span>def print_properties(data_type, values, construction, missing=&#39;None&#39;,
+table_format=&#39;orgtbl&#39;):
+    &quot;&quot;&quot;
+    Prints out the table of properties
+    &quot;&quot;&quot;
+    print(tabulate([[&#39;Data Type&#39;, data_type],
+                    [&#39;Values&#39;, values],
+                    [&#39;Missing Values&#39;, missing],
+                    [&#39;Construction&#39;, &quot;Created from
+&#39;{0}&#39;&quot;.format(construction)]],
+                   headers=&#39;Property Description&#39;.split(),
+                   tablefmt=table_format))
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

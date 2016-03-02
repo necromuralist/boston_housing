@@ -135,18 +135,119 @@
 <h1>Model Prediction<a class="headerlink" href="#model-prediction" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="question-10">
 <h2>Question 10<a class="headerlink" href="#question-10" title="Permalink to this headline">¶</a></h2>
-<p><em>Using grid search on the entire dataset, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your intial intuition?</em></p>
-<p><a href="#id1"><span class="problematic" id="id2">**</span></a>Hint: ** Run the code block below to see the max depth produced by your optimized model.</p>
-<div class="code highlight-python"><div class="highlight"><pre><span></span>Final model optimal parameters: {&#39;max_depth&#39;: 1}
-</pre></div>
-</div>
-<p>The optimal max-depth parameter was 1, which did not match my intuitive interpretation, as I thought that the more complex models did better, and specifically that a max-depth of 6 was optimal for this data set.</p>
+<p><em>Using grid search on the entire data set, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your initial intuition?</em></p>
+<img alt="_images/best_parameters.png" src="_images/best_parameters.png" />
+<p>Best Score: -30.4146619578:.2f
+max-depth parameter with best score: 8</p>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-text">Parameter Counts</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Count</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>3.994</td>
+<td>290</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>240</td>
+</tr>
+<tr class="row-even"><td>7</td>
+<td>142</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>132</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>108</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>88</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils" id="id2">
+<caption><span class="caption-text">Median Scores</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Max-Depth</th>
+<th class="head">Median Score</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>4</td>
+<td>-34.67</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>-32.36</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>-32.61</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>-32.97</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>-32.90</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>-32.97</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>-33.20</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils" id="id3">
+<caption><span class="caption-text">Max Scores</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Max-Depth</th>
+<th class="head">Max Score</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>4</td>
+<td>-34.67</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>-32.36</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>-32.61</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>-32.97</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>-32.90</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>-32.97</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>-33.20</td>
+</tr>
+</tbody>
+</table>
+<p>While a max-depth of 3 was the most common best-parameter, the max-depth of 5 was the median max-depth, had the highest median score, and had the highest overall score, so I will say that the optimal <cite>max_depth</cite> parameter is 5. This is slightly lower than my guess of 6, but doesn&#8217;t seem too far off, although a max-depth of 7 seems to be a slight improvement over 6 as well.</p>
 </div>
 <div class="section" id="question-11">
 <h2>Question 11<a class="headerlink" href="#question-11" title="Permalink to this headline">¶</a></h2>
 <p><em>With your parameter-tuned model, what is the best selling price for your client&#8217;s home? How does this selling price compare to the basic statistics you calculated on the dataset?</em></p>
-<div class="code highlight-python"><div class="highlight"><pre><span></span>Predicted value of client&#39;s home: $19,933.72
-Median Value - predicted: $1,266.28
+<div class="code highlight-python"><div class="highlight"><pre><span></span>Predicted value of client&#39;s home: $18,816.67
+Median Value - predicted: $2,383.33
 </pre></div>
 </div>
 <p>My three chosen features (<cite>lower_status</cite>, <cite>nitric_oxide</cite>, and <cite>rooms</cite>) seemed to indicate that the client&#8217;s house might be a lower-valued house, and the predicted value was about $1,266 less than the median median-value, so our model predicts that the client has a below-median-value house.</p>
@@ -154,7 +255,7 @@ Median Value - predicted: $1,266.28
 <div class="section" id="question-12">
 <h2>Question 12<a class="headerlink" href="#question-12" title="Permalink to this headline">¶</a></h2>
 <p><em>In a few sentences, discuss whether you would use this model or not to predict the selling price of future clients&#8217; homes in the Greater Boston area.</em></p>
-<p>While the model does seem to predict a reasonable prec, I don&#8217;t think that I would use this model (exclusively). The optimal model with a max-depth of 1 showed a high-bias and I suspect this underfits the data. I think this might be a good baseline model, but I would need to see other models before feeling confident that the predictions are valid.</p>
+<p>I think that this model seems to make a reasonable prediction for the given data (Boston Suburbs in 1970), but I&#8217;m not sure that I agree that the data for an entire suburb is necessarily generalizable for a specific unit within a suburb. What this model predicts is that a suburb with attributes similar to the client&#8217;s would have our predicted median value, but within each suburb there would likely be a bit of variance. I would also think that separating out the upper-class houses would give a better model for this particular client, given the sub-median values for his or her features, and the right-skew of the data. If the goal was to predict median prices for suburbs, then I would use this model, but not for individual sales.</p>
 </div>
 </div>
 

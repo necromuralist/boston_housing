@@ -144,7 +144,7 @@
 <span class="sd">     - `y`: target array</span>
 <span class="sd">     - `test_size`: fraction of data to use for testing</span>
 <span class="sd">     - `random_state`: seed for the random number generator</span>
-<span class="sd">    :return: x-train, y-train, x-tets, y-test</span>
+<span class="sd">    :return: x-train, y-train, x-test, y-test</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span>  <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span>
                                                          <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
@@ -167,13 +167,15 @@
 <span class="n">actual</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
 <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">expected</span> <span class="o">-</span> <span class="n">actual</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span>
 
-<div class="viewcode-block" id="fit_model"><a class="viewcode-back" href="../../api/boston_housing.evaluating_model_performance.fit_model.html#boston_housing.evaluating_model_performance.fit_model">[docs]</a><span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="fit_model"><a class="viewcode-back" href="../../api/boston_housing.evaluating_model_performance.fit_model.html#boston_housing.evaluating_model_performance.fit_model">[docs]</a><span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Tunes a decision tree regressor model using GridSearchCV</span>
 
 <span class="sd">    :param:</span>
 <span class="sd">     - `X`:  the input data</span>
 <span class="sd">     - `y`:  target labels y</span>
+<span class="sd">     - `k`: number of cross-validation folds</span>
+<span class="sd">     - `n_jobs`: number of parallel jobs to run</span>
 <span class="sd">    :return: the optimal model</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -184,10 +186,12 @@
     <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)}</span>
 
     <span class="c1"># Make an appropriate scoring function</span>
-    <span class="n">scoring_function</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">)</span>
+    <span class="n">scoring_function</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">greater_is_better</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
     <span class="c1"># Make the GridSearchCV object</span>
-    <span class="n">reg</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring_function</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                       <span class="n">scoring</span><span class="o">=</span><span class="n">scoring_function</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+                       <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)</span>
 
     <span class="c1"># Fit the learner to the data to obtain the optimal model with tuned parameters</span>
     <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>

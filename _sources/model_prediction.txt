@@ -8,20 +8,62 @@ Model Prediction
 Question 10
 -----------
 
-*Using grid search on the entire dataset, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your intial intuition?*
-
-**Hint: ** Run the code block below to see the max depth produced by your optimized model.
-
-
-.. code::
-
-    Final model optimal parameters: {'max_depth': 1}
-    
-    
+*Using grid search on the entire data set, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your initial intuition?*
 
 
 
-The optimal max-depth parameter was 1, which did not match my intuitive interpretation, as I thought that the more complex models did better, and specifically that a max-depth of 6 was optimal for this data set.
+
+.. image:: figures/best_parameters.png
+
+
+
+
+Best Score: -30.4146619578:.2f
+max-depth parameter with best score: 8
+
+
+
+.. csv-table:: Parameter Counts
+   :header: Parameter, Count
+
+   3.994,290
+   5,240
+   7,142
+   6,132
+   8,108
+   9,88
+
+
+
+.. csv-table:: Median Scores
+   :header: Max-Depth, Median Score
+
+   4,-34.67
+   5,-32.36
+   6,-32.61
+   7,-32.97
+   8,-32.90
+   9,-32.97
+   10,-33.20
+
+
+
+.. csv-table:: Max Scores
+   :header: Max-Depth, Max Score
+
+   4,-34.67
+   5,-32.36
+   6,-32.61
+   7,-32.97
+   8,-32.90
+   9,-32.97
+   10,-33.20
+
+
+
+While a max-depth of 3 was the most common best-parameter, the max-depth of 5 was the median max-depth, had the highest median score, and had the highest overall score, so I will say that the optimal `max_depth` parameter is 5. This is slightly lower than my guess of 6, but doesn't seem too far off, although a max-depth of 7 seems to be a slight improvement over 6 as well.
+
+.. '
 
 Question 11
 -----------
@@ -33,8 +75,8 @@ Question 11
 
 .. code::
 
-    Predicted value of client's home: $19,933.72
-    Median Value - predicted: $1,266.28
+    Predicted value of client's home: $18,816.67
+    Median Value - predicted: $2,383.33
     
     
 
@@ -49,7 +91,9 @@ Question 12
 
 *In a few sentences, discuss whether you would use this model or not to predict the selling price of future clients' homes in the Greater Boston area.*
 
-While the model does seem to predict a reasonable prec, I don't think that I would use this model (exclusively). The optimal model with a max-depth of 1 showed a high-bias and I suspect this underfits the data. I think this might be a good baseline model, but I would need to see other models before feeling confident that the predictions are valid.
+.. '
+
+I think that this model seems to make a reasonable prediction for the given data (Boston Suburbs in 1970), but I'm not sure that I agree that the data for an entire suburb is necessarily generalizable for a specific unit within a suburb. What this model predicts is that a suburb with attributes similar to the client's would have our predicted median value, but within each suburb there would likely be a bit of variance. I would also think that separating out the upper-class houses would give a better model for this particular client, given the sub-median values for his or her features, and the right-skew of the data. If the goal was to predict median prices for suburbs, then I would use this model, but not for individual sales.
 
 
 

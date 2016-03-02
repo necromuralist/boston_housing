@@ -28,7 +28,7 @@ Here is the description of the data variables provided by sklearn.
    NOX      :nitric oxides concentration (parts per 10 million)
    RM       :average number of rooms per dwelling
    AGE      :proportion of owner-occupied units built prior to 1940
-   DIS      :weighted distances to five Boston employment centres
+   DIS      :weighted distances to five Boston employment centers
    RAD      :index of accessibility to radial highways
    TAX      :full-value property-tax rate per $10,000
    PTRATIO  :pupil-teacher ratio by town
@@ -77,7 +77,7 @@ Summary Statistics
 
 
 
-.. csv-table:: Boston Housing dataset statistics (in $1000's)
+.. csv-table:: Boston Housing data-set statistics (in $1000's)
    :header: Item, Value
 
    Total number of instances,506
@@ -90,6 +90,10 @@ Summary Statistics
 
 
 .. '
+
+Plots
+-----
+
 
 .. image:: figures/median_value_distribution.png
 
@@ -133,6 +137,10 @@ Question 1
 ----------
 
 *Of the features available for each data point, choose three that you feel are significant and give a brief description for each of what they measure.*
+
+To get an idea of how the features are related to the median-value, I'll plot some linear-regressions.
+
+.. '
 
 
 .. image:: figures/housing_data_regression_plots_1.png
