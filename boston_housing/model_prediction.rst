@@ -10,28 +10,34 @@ Question 10
 
 *Using grid search on the entire data set, what is the optimal  ``max_depth`` parameter for your model? How does this result compare to your initial intuition?*
 
-
-
-
-.. image:: figures/best_parameters.png
+To find the 'best' model I ran the `fit_model` function 1,000 times and took the `best_params_` (max-depth) and `best_score_` (negative MSE) for each trial.
 
 
 
 
-Best Score: -30.4670285185:.2f
-max-depth parameter with best score: 5
+.. image:: figures/best_parameters.png.*
+   :align: center
+   :scale: 95%
+
+
+
+.. csv-table: Best Score
+   :header: Description, Value
+
+   Best Score, -30.55
+   max-depth parameter with best score,5
 
 
 
 .. csv-table:: Parameter Counts
    :header: Max-Depth, Count
 
-   3.994,292
-   5,212
-   7,156
-   6,151
-   8,120
-   9,69
+   4,295
+   5,231
+   7,161
+   6,141
+   8,102
+   9,70
 
 
 
@@ -39,31 +45,31 @@ max-depth parameter with best score: 5
    :header: Max-Depth, Median Score
 
    4,-34.58
-   5,-32.33
-   6,-32.43
-   7,-32.80
-   8,-32.99
-   9,-32.99
-   10,-32.92
+   5,-32.48
+   6,-32.54
+   7,-33.25
+   8,-32.98
+   9,-33.07
+   10,-33.31
 
 
 
 .. csv-table:: Max Scores
    :header: Max-Depth, Max Score
 
-   4,-34.58
-   5,-32.33
-   6,-32.43
-   7,-32.80
-   8,-32.99
-   9,-32.99
-   10,-32.92
+   4,-34.35
+   5,-30.55
+   6,-30.59
+   7,-31.62
+   8,-30.56
+   9,-30.77
+   10,-31.62
 
 
 
-While a max-depth of 4 was the most common best-parameter, the max-depth of 5 was the median max-depth, had the highest median score, and had the highest overall score, so I will say that the optimal `max_depth` parameter is 5. This is slightly lower than my guess of 6, but doesn't seem too far off, although a max-depth of 7 seems to be a slight improvement over 6 as well.
+.. note:: Since the `GridSearchCV` normally tries to maximize the output of the scoring-function, but the goal in this case was to minimize it, the scores are negations of the MSE, thus the higher the score, the lower the MSE.
 
-.. '
+While a max-depth of 4 was the most common best-parameter, the max-depth of 5 was the median max-depth, had the highest median score, and had the highest overall score, so I will say that the optimal `max_depth` parameter is 5. This is in line with what I had guessed, based on the Complexity Performance plot.
 
 Question 11
 -----------
@@ -72,17 +78,15 @@ Question 11
 
 .. '
 
+.. csv-table:: Predicted Price
+   :delim: ;
 
-.. code::
-
-    Predicted value of client's home: $20,967.76
-    Median Value - predicted: $232.24
-    
-    
+   Predicted value of client's home; $20,967.76
+   Median for all suburbs - predicted; $232.24
 
 
 
-My three chosen features (`lower_status`, `nitric_oxide`, and `rooms`) seemed to indicate that the client's house might be a lower-valued house, and the predicted value was about $1,266 less than the median median-value, so our model predicts that the client has a below-median-value house.
+My three chosen features (`lower_status`, `nitric_oxide`, and `rooms`) seemed to indicate that the client's house might be a lower-valued house, and the predicted value was about $232 less than the median median-value, so our model predicts that the client has a below-median-value house.
 
 .. '
 
@@ -93,7 +97,4 @@ Question 12
 
 .. '
 
-I think that this model seems to make a reasonable prediction for the given data (Boston Suburbs in 1970), but I'm not sure that I agree that the data for an entire suburb is necessarily generalizable for a specific unit within a suburb. What this model predicts is that a suburb with attributes similar to the client's would have our predicted median value, but within each suburb there would likely be a bit of variance. I would also think that separating out the upper-class houses would give a better model for this particular client, given the sub-median values for his or her features, and the right-skew of the data. If the goal was to predict median prices for suburbs, then I would use this model, but not for individual sales.
-
-
-
+I think that this model seems reasonable for the given data (Boston Suburbs in 1970), but I think that I might be hesitant to predict the value for a specific house using it, given that we are using aggregate-values for entire suburbs, not values for individual houses. I would also think that separating out the upper-class houses would give a better model for certain clients, given the right-skew of the data. Also, the median MSE for the best model was ~32 so taking the square root of this gives an 'average' error of about $5,700, which seems fairly high, given the low median-values for the houses. I think that the model gives a useful ball-park-figure estimate, but I think I'd have to qualify the certainty of prediction for future clients, noting also the age of the data and not extrapolating much beyond 1970.

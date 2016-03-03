@@ -10,9 +10,10 @@ import statsmodels.api as statsmodels
 
 # this code
 from boston_housing.common import load_housing_data, CLIENT_FEATURES
+from boston_housing.common import print_image_directive
 
 seaborn.set_style('whitegrid')
-seaborn.color_palette('cubehelix', 8)
+seaborn.color_palette('hls')
 
 housing_features, housing_prices, feature_names = load_housing_data()
 housing_data = pandas.DataFrame(housing_features, columns=feature_names)
@@ -58,49 +59,70 @@ for index, old_name in enumerate(old_names):
 
 description = housing_data.describe()
 
-print("   Total number of instances,{0}".format(int(description.median_value.loc['count'])))
-print("   Total number of features,{0}".format((len(description.columns) - 1)/2))
-print("   Minimum house price,{0}".format(housing_data.median_value.min()))
-print("   Maximum house price,{0}".format(housing_data.median_value.max()))
-print("   Mean house price,{0:.2f}".format(housing_data.median_value.mean()))
-print("   Median house price,{0}".format(housing_data.median_value.median()))
-print("   Sample Standard deviation of house price,{0:.2f}".format(numpy.std(housing_data.median_value)))
+print("   {0},{1}".format(len(housing_prices),
+                          len(feature_names)))
 
-filename = 'figures/median_value_distribution.png'
+for item in description.index:
+    formatter = "   {0},{1:.0f}" if item == 'count' else '   {0},{1:.2f}'
+    print(formatter.format(item, description.median_value.loc[item]))
+
+filename = 'median_value_distribution'
 figure = plot.figure()
 axe = figure.gca()
 grid = seaborn.distplot(housing_data.median_value, ax=axe)
-axe.axvline(housing_data.median_value.mean(), label='mean', color='firebrick')
-axe.axvline(housing_data.median_value.median(), label='median')
+axe.axvline(housing_data.median_value.mean(), label='mean')
+axe.axvline(housing_data.median_value.median(), label='median',
+            color=seaborn.xkcd_rgb['medium green'])
 axe.legend()
 title = axe.set_title("Boston Housing Median Values")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+print_image_directive(filename, figure, scale='95%')
 
-filename = 'figures/median_value_boxplots.png'
+filename = 'median_value_boxplots'
 figure = plot.figure()
 axe = figure.gca()
 grid = seaborn.boxplot(housing_data.median_value, ax=axe)
 title = axe.set_title("Boston Housing Median Values")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+print_image_directive(filename, figure, scale='95%')
 
-filename = 'figures/median_value_qqplot.png'
+def qqline_s(ax, x, y, dist, fmt='r-', **plot_kwargs):
+    """
+    plot qq-line (taken from statsmodels.graphics.qqplot)
+
+    :param:
+     - `ax`: matplotlib axes
+     - `x`: theoretical_quantiles
+     - `y`: sample_quantiles
+     - `dist`: scipy.stats distribution
+     - `fmt`: format string for line
+     - `plot_kwargs`: matplotlib 2Dline keyword arguments
+    """
+    m, b = y.std(), y.mean()
+    reference_line = m * x + b
+    ax.plot(x, reference_line, fmt, **plot_kwargs)
+    return
+
+filename = 'median_value_qqplot'
 figure = plot.figure()
 axe = figure.gca()
-grid = statsmodels.qqplot(housing_data.median_value, ax=axe, line='s')
-title = axe.set_title("Boston Housing Median Values")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+color_map = plot.get_cmap('Blues')
+prob_plot = statsmodels.ProbPlot(housing_data.median_value)
+prob_plot.qqplot(ax=axe, color='b', alpha=.25)
 
-filename = 'figures/median_value_cdf.png'
+qqline_s(ax=axe, dist=prob_plot.dist,
+         x=prob_plot.theoretical_quantiles, y=prob_plot.sample_quantiles,
+         fmt='-', color=seaborn.xkcd_rgb['medium green'])
+         #color=(.33, .66, .27))
+
+title = axe.set_title("Boston Housing Median Values (QQ-Plot)")
+print_image_directive(filename, figure)
+
+filename = 'median_value_cdf'
 figure = plot.figure()
 axe = figure.gca()
 grid = plot.plot(sorted(housing_data.median_value), numpy.linspace(0, 1, housing_data.median_value.count()))
 title = axe.set_title("Boston Housing Median Values (CDF)")
 axe.set_xlabel("Median Home Value in $1,000's")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+print_image_directive(filename, figure)
 
 percentile_90 = housing_data.quantile(.90).median_value
 
@@ -129,11 +151,10 @@ rows = (len(features) // 3)
 slice_start = 0
 
 for row in range(1, rows + 1):
-    filename = 'figures/housing_data_regression_plots_{0}.png'.format(row)
+    filename = 'housing_data_regression_plots_{0}.png'.format(row)
     grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:row * 3], y_vars=['median_value'])
     grid.map(seaborn.regplot)
-    grid.savefig(filename)
-    print('.. image:: {0}'.format(filename))
+    print_image_directive(filename, grid)
     slice_start = row * 3
 
 if rows % 3:

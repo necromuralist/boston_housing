@@ -14,6 +14,7 @@ from sklearn.tree import DecisionTreeRegressor
 # this code
 from boston_housing.evaluating_model_performance import shuffle_split_data
 from boston_housing.evaluating_model_performance import performance_metric
+from boston_housing.common import print_image_directive
 
 seaborn.set_style('whitegrid')
 DEBUG = strtobool(os.environ.get('DEBUG', 'off'))
@@ -37,7 +38,6 @@ def learning_curves(X_train, y_train, X_test, y_test):
     """
     if DEBUG:
         print( "Creating learning curve graphs for max_depths of 1, 3, 6, and 10. . .")
-    filename = 'figures/learning_curves.png'
     # Create the figure window
     fig = plot.figure(figsize=(10,8))
 
@@ -76,8 +76,8 @@ def learning_curves(X_train, y_train, X_test, y_test):
     # Visual aesthetics
     fig.suptitle('Decision Tree Regressor Learning Performances', fontsize=18, y=1.03)
     fig.tight_layout()
-    fig.savefig(filename)
-    print(".. image:: {0}".format(filename))
+    filename = 'learning_curves'
+    print_image_directive(filename, fig)
 
 def model_complexity(X_train, y_train, X_test, y_test):
     """ 
@@ -87,7 +87,7 @@ def model_complexity(X_train, y_train, X_test, y_test):
     if DEBUG:
         print( "Creating a model complexity graph. . . ")
 
-    filename = 'figures/model_complexity.png'
+
     # We will vary the max_depth of a decision tree model from 1 to 14
     max_depth = numpy.arange(1, 14)
     train_err = numpy.zeros(len(max_depth))
@@ -107,15 +107,16 @@ def model_complexity(X_train, y_train, X_test, y_test):
         test_err[i] = performance_metric(y_test, regressor.predict(X_test))
 
     # Plot the model complexity graph
-    plot.figure(figsize=(7, 5))
-    plot.title('Decision Tree Regressor Complexity Performance')
-    plot.plot(max_depth, test_err, lw=2, label = 'Testing Error')
-    plot.plot(max_depth, train_err, lw=2, label = 'Training Error')
-    plot.legend()
-    plot.xlabel('Maximum Depth')
-    plot.ylabel('Total Error')
-    plot.savefig(filename)
-    print(".. image:: {0}".format(filename))
+    figure = plot.figure(figsize=(7, 5))
+    axe = figure.gca()
+    axe.set_title('Decision Tree Regressor Complexity Performance')
+    axe.plot(max_depth, test_err, lw=2, label = 'Testing Error')
+    axe.plot(max_depth, train_err, lw=2, label = 'Training Error')
+    axe.legend()
+    axe.set_xlabel('Maximum Depth')
+    axe.set_ylabel('Total Error')
+    filename = 'model_complexity'
+    print_image_directive(filename, figure)
 
 with warnings.catch_warnings():
     warnings.simplefilter('ignore')

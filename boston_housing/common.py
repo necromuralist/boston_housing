@@ -1,6 +1,7 @@
 
 # python standard library
 from collections import namedtuple
+import os
 
 # third party
 from sklearn import datasets
@@ -198,3 +199,21 @@ def print_properties(data_type, values, construction, missing='None', table_form
                     ['Construction', "Created from '{0}'".format(construction)]],
                    headers='Property Description'.split(),
                    tablefmt=table_format))
+
+def print_image_directive(filename, figure, scale='95%'):
+    """
+    saves and prints the rst image directive
+
+    :param:
+
+     - `filename`: filename to save the image (without 'figures/' or file extension)
+     - `figure`: matplotlib figure to save the image
+     - `scale: percent scale for the image
+    :postcondition: figure saved, rst image directive output
+    """
+    path = os.path.join('figures/', filename)
+    figure.savefig(path + '.svg')
+    figure.savefig(path + '.pdf')
+    print(".. image:: {0}.*".format(path))
+    print("   :align: center")
+    print("   :scale: {0}".format(scale))

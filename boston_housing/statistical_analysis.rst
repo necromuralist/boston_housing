@@ -9,11 +9,10 @@ Statistical Analysis and Data Exploration
 
 
 
-
 The Data
 --------
 
-The data was taken from the `sklearn.load_boston <http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html>`_ function, which itself cites the `UCI Machine Learning Repository <http://archive.ics.uci.edu/ml/datasets/Housing>`_ as their source for the data. The data gives values for various features of different suburbs of Boston as well as the median-value for homes in the suburbs. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.
+The data was taken from the `sklearn.load_boston <http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html>`_ function, which itself cites the `UCI Machine Learning Repository <http://archive.ics.uci.edu/ml/datasets/Housing>`_ as their source for the data. The data gives values for various features of different suburbs of Boston as well as the median-value for homes in each suburb. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.
 
 Here is the description of the data variables provided by sklearn.
 
@@ -37,7 +36,6 @@ Here is the description of the data variables provided by sklearn.
    MEDV     :Median value of owner-occupied homes in $1000's
 
 .. note:: The data comes from the 1970 U.S. Census so its values don't (necessarily) reflect current values.
-
 
 Cleaning the Data
 -----------------
@@ -76,17 +74,28 @@ Summary Statistics
 
 
 
+To get a sense of the data I'll look at the shape of the data as well as some summary statistics for the median-value.
 
-.. csv-table:: Boston Housing data-set statistics (in $1000's)
+.. '
+
+.. csv-table:: Boston Housing Data Shape
+   :header: Instances, Features
+
+   506,13
+
+
+
+.. csv-table:: Boston Housing median-value statistics (in $1000's)
    :header: Item, Value
 
-   Total number of instances,506
-   Total number of features,13.0
-   Minimum house price,5.0
-   Maximum house price,50.0
-   Mean house price,22.53
-   Median house price,21.2
-   Sample Standard deviation of house price,9.19
+   count,506
+   mean,22.53
+   std,9.20
+   min,5.00
+   25%,17.02
+   50%,21.20
+   75%,25.00
+   max,50.00
 
 
 .. '
@@ -95,32 +104,32 @@ Plots
 -----
 
 
-.. image:: figures/median_value_distribution.png
+
+.. image:: figures/median_value_distribution.*
+   :align: center
+   :scale: 95%
 
 
 
 
-.. image:: figures/median_value_boxplots.png
-
-
-
-.. <<name='violinplot', results='sphinx', echo=False, include=False>>=
-.. filename = 'figures/median_value_violinplot.png'
-.. figure = plot.figure()
-.. axe = figure.gca()
-.. grid = seaborn.violinplot(housing_data.median_value, ax=axe)
-.. title = axe.set_title("Boston Housing Median Values")
-.. figure.savefig(filename)
-.. print(".. image:: {0}".format(filename))
-.. @
-
-
-.. image:: figures/median_value_qqplot.png
+.. image:: figures/median_value_boxplots.*
+   :align: center
+   :scale: 95%
 
 
 
 
-.. image:: figures/median_value_cdf.png
+
+.. image:: figures/median_value_qqplot.*
+   :align: center
+   :scale: 95%
+
+
+
+
+.. image:: figures/median_value_cdf.*
+   :align: center
+   :scale: 95%
 
 
 
@@ -143,13 +152,20 @@ To get an idea of how the features are related to the median-value, I'll plot so
 .. '
 
 
-.. image:: figures/housing_data_regression_plots_1.png
-.. image:: figures/housing_data_regression_plots_2.png
-.. image:: figures/housing_data_regression_plots_3.png
-.. image:: figures/housing_data_regression_plots_4.png
+.. image:: figures/housing_data_regression_plots_1.png.*
+   :align: center
+   :scale: 95%
+.. image:: figures/housing_data_regression_plots_2.png.*
+   :align: center
+   :scale: 95%
+.. image:: figures/housing_data_regression_plots_3.png.*
+   :align: center
+   :scale: 95%
+.. image:: figures/housing_data_regression_plots_4.png.*
+   :align: center
+   :scale: 95%
 
 
-|
 
 
 

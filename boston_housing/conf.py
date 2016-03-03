@@ -51,7 +51,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Project 1 (Predicting Boston Housing Prices)'
+project = u'Predicting Boston Housing Prices'
 copyright = u'2016, Russell Nakamura'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -109,7 +109,7 @@ html_theme = 'bootstrap'
 # documentation.
 #html_theme_options = {}
 html_theme_options = {
-    'bootswatch_theme': "readable",
+    'bootswatch_theme': "spacelab",
 }
 
 # Add any paths that contain custom themes here, relative to this directory.

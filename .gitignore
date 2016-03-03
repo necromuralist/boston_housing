@@ -8,3 +8,4 @@ dist/
 *.cover
 *.log
 .venv
+.ipynb_checkpoints

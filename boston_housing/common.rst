@@ -10,6 +10,7 @@ This is a place for code shared by the different sections so that they don't hav
 
     # python standard library
     from collections import namedtuple
+    import os
     
     # third party
     from sklearn import datasets
@@ -290,5 +291,13 @@ This was created to summarize the properties for a value in a data set to make c
                        headers='Property Description'.split(),
                        tablefmt=table_format))
     
+
+
+
+Plotting
+--------
+
+
+
 
 

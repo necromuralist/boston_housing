@@ -13,12 +13,12 @@ import statsmodels.api as statsmodels
 
 # this code
 from boston_housing.common import load_housing_data, CLIENT_FEATURES
+from boston_housing.common import print_image_directive
 @
 <<name='plot_setup', echo=False>>=
 seaborn.set_style('whitegrid')
-seaborn.color_palette('cubehelix', 8)
+seaborn.color_palette('hls')
 @
-
 
 <<name='data_load', echo=False>>=
 housing_features, housing_prices, feature_names = load_housing_data()
@@ -29,7 +29,7 @@ housing_data['median_value'] = housing_prices
 The Data
 --------
 
-The data was taken from the `sklearn.load_boston <http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html>`_ function, which itself cites the `UCI Machine Learning Repository <http://archive.ics.uci.edu/ml/datasets/Housing>`_ as their source for the data. The data gives values for various features of different suburbs of Boston as well as the median-value for homes in the suburbs. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.
+The data was taken from the `sklearn.load_boston <http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html>`_ function, which itself cites the `UCI Machine Learning Repository <http://archive.ics.uci.edu/ml/datasets/Housing>`_ as their source for the data. The data gives values for various features of different suburbs of Boston as well as the median-value for homes in each suburb. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.
 
 Here is the description of the data variables provided by sklearn.
 
@@ -53,7 +53,6 @@ Here is the description of the data variables provided by sklearn.
    MEDV     :Median value of owner-occupied homes in $1000's
 
 .. note:: The data comes from the 1970 U.S. Census so its values don't (necessarily) reflect current values.
-
 
 Cleaning the Data
 -----------------
@@ -113,75 +112,95 @@ Summary Statistics
 <<name='describe', echo=False, results='sphinx'>>=
 description = housing_data.describe()
 @
+To get a sense of the data I'll look at the shape of the data as well as some summary statistics for the median-value.
 
-.. csv-table:: Boston Housing data-set statistics (in $1000's)
+.. '
+
+.. csv-table:: Boston Housing Data Shape
+   :header: Instances, Features
+<<name='data_shape', echo=False, results='sphinx'>>=
+print("   {0},{1}".format(len(housing_prices),
+                          len(feature_names)))
+@
+
+.. csv-table:: Boston Housing median-value statistics (in $1000's)
    :header: Item, Value
 <<name='housing_table', echo=False, results='sphinx'>>=
-print("   Total number of instances,{0}".format(int(description.median_value.loc['count'])))
-print("   Total number of features,{0}".format((len(description.columns) - 1)/2))
-print("   Minimum house price,{0}".format(housing_data.median_value.min()))
-print("   Maximum house price,{0}".format(housing_data.median_value.max()))
-print("   Mean house price,{0:.2f}".format(housing_data.median_value.mean()))
-print("   Median house price,{0}".format(housing_data.median_value.median()))
-print("   Sample Standard deviation of house price,{0:.2f}".format(numpy.std(housing_data.median_value)))
+for item in description.index:
+    formatter = "   {0},{1:.0f}" if item == 'count' else '   {0},{1:.2f}'
+    print(formatter.format(item, description.median_value.loc[item]))
 @
 .. '
 
 Plots
 -----
 
+
 <<name='distribution', results='sphinx', echo=False, include=False>>=
-filename = 'figures/median_value_distribution.png'
+filename = 'median_value_distribution'
 figure = plot.figure()
 axe = figure.gca()
 grid = seaborn.distplot(housing_data.median_value, ax=axe)
-axe.axvline(housing_data.median_value.mean(), label='mean', color='firebrick')
-axe.axvline(housing_data.median_value.median(), label='median')
+axe.axvline(housing_data.median_value.mean(), label='mean')
+axe.axvline(housing_data.median_value.median(), label='median',
+            color=seaborn.xkcd_rgb['medium green'])
 axe.legend()
 title = axe.set_title("Boston Housing Median Values")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+print_image_directive(filename, figure, scale='95%')
 @
 
 <<name='boxplot', results='sphinx', echo=False, include=False>>=
-filename = 'figures/median_value_boxplots.png'
+filename = 'median_value_boxplots'
 figure = plot.figure()
 axe = figure.gca()
 grid = seaborn.boxplot(housing_data.median_value, ax=axe)
 title = axe.set_title("Boston Housing Median Values")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+print_image_directive(filename, figure, scale='95%')
 @
 
-.. <<name='violinplot', results='sphinx', echo=False, include=False>>=
-.. filename = 'figures/median_value_violinplot.png'
-.. figure = plot.figure()
-.. axe = figure.gca()
-.. grid = seaborn.violinplot(housing_data.median_value, ax=axe)
-.. title = axe.set_title("Boston Housing Median Values")
-.. figure.savefig(filename)
-.. print(".. image:: {0}".format(filename))
-.. @
 
 <<name="qqplot", results='sphinx', echo=False, include=False>>=
-filename = 'figures/median_value_qqplot.png'
+def qqline_s(ax, x, y, dist, fmt='r-', **plot_kwargs):
+    """
+    plot qq-line (taken from statsmodels.graphics.qqplot)
+
+    :param:
+     - `ax`: matplotlib axes
+     - `x`: theoretical_quantiles
+     - `y`: sample_quantiles
+     - `dist`: scipy.stats distribution
+     - `fmt`: format string for line
+     - `plot_kwargs`: matplotlib 2Dline keyword arguments
+    """
+    m, b = y.std(), y.mean()
+    reference_line = m * x + b
+    ax.plot(x, reference_line, fmt, **plot_kwargs)
+    return
+
+filename = 'median_value_qqplot'
 figure = plot.figure()
 axe = figure.gca()
-grid = statsmodels.qqplot(housing_data.median_value, ax=axe, line='s')
-title = axe.set_title("Boston Housing Median Values")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+color_map = plot.get_cmap('Blues')
+prob_plot = statsmodels.ProbPlot(housing_data.median_value)
+prob_plot.qqplot(ax=axe, color='b', alpha=.25)
+
+qqline_s(ax=axe, dist=prob_plot.dist,
+         x=prob_plot.theoretical_quantiles, y=prob_plot.sample_quantiles,
+         fmt='-', color=seaborn.xkcd_rgb['medium green'])
+         #color=(.33, .66, .27))
+
+title = axe.set_title("Boston Housing Median Values (QQ-Plot)")
+print_image_directive(filename, figure)
 @ 
 
 <<name='cdf', echo=False, results='sphinx', include=False>>=
-filename = 'figures/median_value_cdf.png'
+filename = 'median_value_cdf'
 figure = plot.figure()
 axe = figure.gca()
 grid = plot.plot(sorted(housing_data.median_value), numpy.linspace(0, 1, housing_data.median_value.count()))
 title = axe.set_title("Boston Housing Median Values (CDF)")
 axe.set_xlabel("Median Home Value in $1,000's")
-figure.savefig(filename)
-print(".. image:: {0}".format(filename))
+print_image_directive(filename, figure)
 @
 
 <<name='over_35', echo=False>>=
@@ -228,14 +247,12 @@ rows = (len(features) // 3)
 slice_start = 0
 
 for row in range(1, rows + 1):
-    filename = 'figures/housing_data_regression_plots_{0}.png'.format(row)
+    filename = 'housing_data_regression_plots_{0}.png'.format(row)
     grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:row * 3], y_vars=['median_value'])
     grid.map(seaborn.regplot)
-    grid.savefig(filename)
-    print('.. image:: {0}'.format(filename))
+    print_image_directive(filename, grid)
     slice_start = row * 3
 @
-|
 
 <<name='last_row', echo=False, include=False, results='sphinx'>>=
 if rows % 3:
