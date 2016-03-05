@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>scikits.bootstrap.ci &mdash; Predicting Boston Housing Prices 2016.02.21 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/spacelab/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2016.02.21',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Predicting Boston Housing Prices 2016.02.21 documentation" href="../index.html" />
+    <link rel="up" title="Software" href="../software.html" />
+    <link rel="prev" title="boston_housing.analyzing_model_performance.model_complexity" href="boston_housing.analyzing_model_performance.model_complexity.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          Predicting Boston Housing Prices</a>
+        <span class="navbar-text navbar-version pull-left"><b>2016.02.21</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../statistical_analysis.html"> Statistical Analysis and Data Exploration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../evaluating_model_performance.html"> Evaluating Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analyzing_model_performance.html"> Analyzing Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_prediction.html"> Model Prediction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citations.html"> Citations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../software.html"> Software References</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">scikits.bootstrap.ci</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="boston_housing.analyzing_model_performance.model_complexity.html" title="Previous Chapter: boston_housing.analyzing_model_performance.model_complexity"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; boston_housin...</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/api/scikits.bootstrap.ci.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="scikits-bootstrap-ci">
+<h1>scikits.bootstrap.ci<a class="headerlink" href="#scikits-bootstrap-ci" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="scikits.bootstrap.ci">
+<code class="descclassname">scikits.bootstrap.</code><code class="descname">ci</code><span class="sig-paren">(</span><em>data</em>, <em>statfunction=&lt;function average&gt;</em>, <em>alpha=0.05</em>, <em>n_samples=10000</em>, <em>method='bca'</em>, <em>output='lowhigh'</em>, <em>epsilon=0.001</em>, <em>multi=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scikits/bootstrap/bootstrap.html#ci"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scikits.bootstrap.ci" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a set of data <code class="docutils literal"><span class="pre">data</span></code>, and a statistics function <code class="docutils literal"><span class="pre">statfunction</span></code> that
+applies to that data, computes the bootstrap confidence interval for
+<code class="docutils literal"><span class="pre">statfunction</span></code> on that data. Data points are assumed to be delineated by
+axis 0.</p>
+<dl class="docutils">
+<dt>data: array_like, shape (N, ...) OR tuple of array_like all with shape (N, ...)</dt>
+<dd>Input data. Data points are assumed to be delineated by axis 0. Beyond this,
+the shape doesn&#8217;t matter, so long as <code class="docutils literal"><span class="pre">statfunction</span></code> can be applied to the
+array. If a tuple of array_likes is passed, then samples from each array (along
+axis 0) are passed in order as separate parameters to the statfunction. The
+type of data (single array or tuple of arrays) can be explicitly specified
+by the multi parameter.</dd>
+<dt>statfunction: function (data, weights=(weights, optional)) -&gt; value</dt>
+<dd><p class="first">This function should accept samples of data from <code class="docutils literal"><span class="pre">data</span></code>. It is applied
+to these samples individually.</p>
+<p class="last">If using the ABC method, the function _must_ accept a named <code class="docutils literal"><span class="pre">weights</span></code> 
+parameter which will be an array_like with weights for each sample, and 
+must return a _weighted_ result. Otherwise this parameter is not used
+or required. Note that numpy&#8217;s np.average accepts this. (default=np.average)</p>
+</dd>
+<dt>alpha: float or iterable, optional</dt>
+<dd>The percentiles to use for the confidence interval (default=0.05). If this
+is a float, the returned values are (alpha/2, 1-alpha/2) percentile confidence
+intervals. If it is an iterable, alpha is assumed to be an iterable of
+each desired percentile.</dd>
+<dt>n_samples: float, optional</dt>
+<dd>The number of bootstrap samples to use (default=10000)</dd>
+<dt>method: string, optional</dt>
+<dd>The method to use: one of &#8216;pi&#8217;, &#8216;bca&#8217;, or &#8216;abc&#8217; (default=&#8217;bca&#8217;)</dd>
+<dt>output: string, optional</dt>
+<dd>The format of the output. &#8216;lowhigh&#8217; gives low and high confidence interval
+values. &#8216;errorbar&#8217; gives transposed abs(value-confidence interval value) values
+that are suitable for use with matplotlib&#8217;s errorbar function. (default=&#8217;lowhigh&#8217;)</dd>
+<dt>epsilon: float, optional (only for ABC method)</dt>
+<dd>The step size for finite difference calculations in the ABC method. Ignored for
+all other methods. (default=0.001)</dd>
+<dt>multi: boolean, optional</dt>
+<dd>If False, assume data is a single array. If True, assume data is a tuple/other
+iterable of arrays of the same length that should be sampled together. If None,
+decide based on whether the data is an actual tuple. (default=None)</dd>
+</dl>
+<dl class="docutils">
+<dt>confidences: tuple of floats</dt>
+<dd>The confidence percentiles specified by alpha</dd>
+</dl>
+<dl class="docutils">
+<dt>&#8216;pi&#8217;: Percentile Interval (Efron 13.3)</dt>
+<dd>The percentile interval method simply returns the 100*alphath bootstrap
+sample&#8217;s values for the statistic. This is an extremely simple method of 
+confidence interval calculation. However, it has several disadvantages 
+compared to the bias-corrected accelerated method, which is the default.</dd>
+<dt>&#8216;bca&#8217;: Bias-Corrected Accelerated Non-Parametric (Efron 14.3) (default)</dt>
+<dd>This method is much more complex to explain. However, it gives considerably
+better results, and is generally recommended for normal situations. Note
+that in cases where the statistic is smooth, and can be expressed with
+weights, the ABC method will give approximated results much, much faster.</dd>
+<dt>&#8216;abc&#8217;: Approximate Bootstrap Confidence (Efron 14.4, 22.6)</dt>
+<dd>This method provides approximated bootstrap confidence intervals without
+actually taking bootstrap samples. This requires that the statistic be 
+smooth, and allow for weighting of individual points with a weights=
+parameter (note that np.average allows this). This is _much_ faster
+than all other methods for situations where it can be used.</dd>
+</dl>
+<p>To calculate the confidence intervals for the mean of some numbers:</p>
+<p>&gt;&gt; boot.ci( np.randn(100), np.average )</p>
+<p>Given some data points in arrays x and y calculate the confidence intervals
+for all linear regression coefficients simultaneously:</p>
+<p>&gt;&gt; boot.ci( (x,y), scipy.stats.linregress )</p>
+<p>Efron, An Introduction to the Bootstrap. Chapman &amp; Hall 1993</p>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Russell Nakamura.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

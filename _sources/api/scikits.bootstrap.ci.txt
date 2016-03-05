@@ -1,0 +1,6 @@
+scikits.bootstrap.ci
+====================
+
+.. currentmodule:: scikits.bootstrap
+
+.. autofunction:: ci

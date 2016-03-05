@@ -71,3 +71,12 @@ Analyzing Model Performance
 
    learning_curves
    model_complexity
+
+Model Prediction
+----------------
+
+.. currentmodule:: scikits.bootstrap
+.. autosummary::
+   :toctree: api
+
+   ci
