@@ -5,11 +5,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>boston_housing.evaluating_model_performance &mdash; Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation</title>
+    <title>boston_housing.evaluating_model_performance &mdash; Predicting Boston Housing Prices 2016.02.21 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/spacelab/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation" href="../../index.html" />
+    <link rel="top" title="Predicting Boston Housing Prices 2016.02.21 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -48,7 +48,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../index.html">
-          Project 1 (Predicting Boston Housing Prices)</a>
+          Predicting Boston Housing Prices</a>
         <span class="navbar-text navbar-version pull-left"><b>2016.02.21</b></span>
       </div>
 
@@ -69,6 +69,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../evaluating_model_performance.html"> Evaluating Model Performance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../analyzing_model_performance.html"> Analyzing Model Performance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../model_prediction.html"> Model Prediction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citations.html"> Citations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software.html"> Software References</a></li>
 </ul>
 </ul>
 </li>
@@ -134,6 +136,7 @@
 <span class="n">housing_prices</span> <span class="o">=</span> <span class="n">city_data</span><span class="o">.</span><span class="n">target</span>
 <span class="n">housing_features</span> <span class="o">=</span> <span class="n">city_data</span><span class="o">.</span><span class="n">data</span>
 <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span> <span class="s1">&#39;off&#39;</span><span class="p">))</span>
+<span class="n">IN_PWEAVE</span> <span class="o">=</span> <span class="n">__name__</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;builtin&#39;</span><span class="p">,</span> <span class="s1">&#39;__bultin__&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="shuffle_split_data"><a class="viewcode-back" href="../../api/boston_housing.evaluating_model_performance.shuffle_split_data.html#boston_housing.evaluating_model_performance.shuffle_split_data">[docs]</a><span class="k">def</span> <span class="nf">shuffle_split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
@@ -160,7 +163,6 @@
 <span class="sd">    :return: mean_squared_error for the prediction</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span></div>
-
 
 <span class="n">expected</span> <span class="o">=</span> <span class="mf">32.167</span>
 <span class="n">tolerance</span> <span class="o">=</span> <span class="mf">0.01</span>

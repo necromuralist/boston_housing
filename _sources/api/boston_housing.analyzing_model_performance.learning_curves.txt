@@ -1,0 +1,6 @@
+boston_housing.analyzing_model_performance.learning_curves
+==========================================================
+
+.. currentmodule:: boston_housing.analyzing_model_performance
+
+.. autofunction:: learning_curves

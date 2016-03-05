@@ -5,11 +5,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Statistical Analysis and Data Exploration &mdash; Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation</title>
+    <title>Statistical Analysis and Data Exploration &mdash; Predicting Boston Housing Prices 2016.02.21 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.4/spacelab/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -28,9 +28,9 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation" href="index.html" />
+    <link rel="top" title="Predicting Boston Housing Prices 2016.02.21 documentation" href="index.html" />
     <link rel="next" title="Evaluating Model Performance" href="evaluating_model_performance.html" />
-    <link rel="prev" title="Project 1 - Predicting Boston Housing Prices" href="index.html" />
+    <link rel="prev" title="Project 1 - Predicting Housing Prices" href="index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -49,7 +49,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="index.html">
-          Project 1 (Predicting Boston Housing Prices)</a>
+          Predicting Boston Housing Prices</a>
         <span class="navbar-text navbar-version pull-left"><b>2016.02.21</b></span>
       </div>
 
@@ -66,10 +66,10 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Statistical Analysis and Data Exploration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="evaluating_model_performance.html">Evaluating Model Performance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="analyzing_model_performance.html">Analyzing Model Performance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="model_prediction.html">Model Prediction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href=""> Statistical Analysis and Data Exploration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluating_model_performance.html"> Evaluating Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyzing_model_performance.html"> Analyzing Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_prediction.html"> Model Prediction</a></li>
 </ul>
 </ul>
 </li>
@@ -84,12 +84,20 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Statistical Analysis and Data Exploration</a><ul>
-<li><a class="reference internal" href="#the-data">The Data</a></li>
+<li><a class="reference internal" href="#the-data">The Data</a><ul>
 <li><a class="reference internal" href="#cleaning-the-data">Cleaning the Data</a></li>
-<li><a class="reference internal" href="#summary-statistics">Summary Statistics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#median-value">Median Value</a><ul>
+<li><a class="reference internal" href="#outlier-check">Outlier Check</a></li>
 <li><a class="reference internal" href="#plots">Plots</a></li>
-<li><a class="reference internal" href="#question-1">Question 1</a></li>
-<li><a class="reference internal" href="#question-2">Question 2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#possibly-significant-features">Possibly Significant Features</a></li>
+<li><a class="reference internal" href="#the-client">The Client</a><ul>
+<li><a class="reference internal" href="#the-client-s-significant-features">The Client&#8217;s Significant Features</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -101,7 +109,7 @@
               
                 
   <li>
-    <a href="index.html" title="Previous Chapter: Project 1 - Predicting Boston Housing Prices"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Project 1 - P...</span>
+    <a href="index.html" title="Previous Chapter: Project 1 - Predicting Housing Prices"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Project 1 - P...</span>
     </a>
   </li>
   <li>
@@ -141,10 +149,11 @@
       
   <div class="section" id="statistical-analysis-and-data-exploration">
 <h1>Statistical Analysis and Data Exploration<a class="headerlink" href="#statistical-analysis-and-data-exploration" title="Permalink to this headline">¶</a></h1>
+<p>This section is an exploratory analysis of the Boston Housing data which will introduce the data and some changes that I made, summarize the median-value data, then look at the features to make an initial hypothesis about the value of the client&#8217;s home.</p>
 <div class="section" id="the-data">
 <h2>The Data<a class="headerlink" href="#the-data" title="Permalink to this headline">¶</a></h2>
-<p>The data was taken from the <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html">sklearn.load_boston</a> function, which itself cites the <a class="reference external" href="http://archive.ics.uci.edu/ml/datasets/Housing">UCI Machine Learning Repository</a> as their source for the data. The data gives values for various features of different suburbs of Boston as well as the median-value for homes in the suburbs. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.</p>
-<p>Here is the description of the data variables provided by sklearn.</p>
+<p>The data was taken from the <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html">sklearn.load_boston</a> function (<cite>sklearn</cite> cites the <a class="reference external" href="http://archive.ics.uci.edu/ml/datasets/Housing">UCI Machine Learning Repository</a> as their source for the data). The data gives values for various features of different suburbs of Boston as well as the median-value for homes in each suburb. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.</p>
+<p>There are 14 variables in the data set (13 features and the median-value target). Here is the description of the data variables provided by sklearn.</p>
 <table border="1" class="docutils" id="id1">
 <caption><span class="caption-text">Attribute Information (in order)</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
@@ -203,12 +212,11 @@
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The data comes from the 1970 U.S. Census so its values don&#8217;t (necessarily) reflect current values.</p>
-</div>
+<p class="last">The data comes from the 1970 U.S. Census and the <cite>median-values</cite> have not been inflation-adjusted.</p>
 </div>
 <div class="section" id="cleaning-the-data">
-<h2>Cleaning the Data<a class="headerlink" href="#cleaning-the-data" title="Permalink to this headline">¶</a></h2>
-<p>Since there are no missing data points, there isn&#8217;t much to do to clean the data, but the odd variable names increase the likelihood of error so I&#8217;m going to expand them to full variable names.</p>
+<h3>Cleaning the Data<a class="headerlink" href="#cleaning-the-data" title="Permalink to this headline">¶</a></h3>
+<p>There are no missing data points but the odd variable names are sometimes confusing so I&#8217;m going to expand them to full variable names.</p>
 <table border="1" class="docutils" id="id2">
 <caption><span class="caption-text">Variable Aliases</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
@@ -263,10 +271,12 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="summary-statistics">
-<h2>Summary Statistics<a class="headerlink" href="#summary-statistics" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="median-value">
+<h2>Median Value<a class="headerlink" href="#median-value" title="Permalink to this headline">¶</a></h2>
+<p>The target variable for this data-set is the <cite>median-value</cite> of houses within a given suburb. After presenting some summary statistics for the <cite>median-value</cite> I&#8217;ll make some plots to get a sense of the shape of the data.</p>
 <table border="1" class="docutils" id="id3">
-<caption><span class="caption-text">Boston Housing data-set statistics (in $1000&#8217;s)</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text">Boston Housing median-value statistics (in $1000&#8217;s)</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="50%" />
 <col width="50%" />
@@ -277,137 +287,201 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Total number of instances</td>
+<tr class="row-even"><td>count</td>
 <td>506</td>
 </tr>
-<tr class="row-odd"><td>Total number of features</td>
-<td>13.0</td>
-</tr>
-<tr class="row-even"><td>Minimum house price</td>
-<td>5.0</td>
-</tr>
-<tr class="row-odd"><td>Maximum house price</td>
-<td>50.0</td>
-</tr>
-<tr class="row-even"><td>Mean house price</td>
+<tr class="row-odd"><td>mean</td>
 <td>22.53</td>
 </tr>
-<tr class="row-odd"><td>Median house price</td>
-<td>21.2</td>
+<tr class="row-even"><td>std</td>
+<td>9.20</td>
 </tr>
-<tr class="row-even"><td>Sample Standard deviation of house price</td>
-<td>9.19</td>
+<tr class="row-odd"><td>min</td>
+<td>5.00</td>
+</tr>
+<tr class="row-even"><td>25%</td>
+<td>17.02</td>
+</tr>
+<tr class="row-odd"><td>50%</td>
+<td>21.20</td>
+</tr>
+<tr class="row-even"><td>75%</td>
+<td>25.00</td>
+</tr>
+<tr class="row-odd"><td>max</td>
+<td>50.00</td>
+</tr>
+<tr class="row-even"><td>IQR</td>
+<td>7.975</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="plots">
-<h2>Plots<a class="headerlink" href="#plots" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="_images/median_value_distribution.svg"><div align="center" class="align-center"><img src="_images/median_value_distribution.svg" /></div>
-</a>
-<a class="reference internal image-reference" href="_images/median_value_boxplots.svg"><div align="center" class="align-center"><img src="_images/median_value_boxplots.svg" /></div>
-</a>
-<a class="reference internal image-reference" href="_images/median_value_qqplot.svg"><div align="center" class="align-center"><img src="_images/median_value_qqplot.svg" /></div>
-</a>
-<a class="reference internal image-reference" href="_images/median_value_cdf.svg"><div align="center" class="align-center"><img src="_images/median_value_cdf.svg" /></div>
-</a>
-<p>Looking at the distribution (histogram and KDE plot) and box-plot the median-values for the homes appear to be right-skewed. The CDF shows that about 90% of the homes are $35,000 or less (the 90th percentile for median-value is 34.8). The qq-plot and the other plots show that the median-values aren&#8217;t normally distributed.</p>
-</div>
-<div class="section" id="question-1">
-<h2>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">¶</a></h2>
-<p><em>Of the features available for each data point, choose three that you feel are significant and give a brief description for each of what they measure.</em></p>
-<p>To get an idea of how the features are related to the median-value, I&#8217;ll plot some linear-regressions.</p>
-<a class="reference internal image-reference" href="_images/housing_data_regression_plots_1.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_1.png.svg" /></div>
-</a>
-<a class="reference internal image-reference" href="_images/housing_data_regression_plots_2.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_2.png.svg" /></div>
-</a>
-<a class="reference internal image-reference" href="_images/housing_data_regression_plots_3.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_3.png.svg" /></div>
-</a>
-<a class="reference internal image-reference" href="_images/housing_data_regression_plots_4.png.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_4.png.svg" /></div>
-</a>
-<img alt="_images/housing_data_regression_plots_5.png" src="_images/housing_data_regression_plots_5.png" />
-<p>Looking at the plots, the three features that I think are the most significant are <cite>lower_status (LSTAT)</cite>, <cite>nitric_oxide (NOX)</cite>, and <cite>rooms (RM)</cite>. The <cite>lower_status</cite> variable is the percent of the population of the town that is of &#8216;lower status&#8217; which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The <cite>nitric_oxide</cite> variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. <cite>rooms</cite> is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison, 1978).</p>
-</div>
-<div class="section" id="question-2">
-<h2>Question 2<a class="headerlink" href="#question-2" title="Permalink to this headline">¶</a></h2>
-<p><em>Using your client&#8217;s feature set ``CLIENT_FEATURES``, which values correspond with the features you&#8217;ve chosen above?</em></p>
+<div class="section" id="outlier-check">
+<h3>Outlier Check<a class="headerlink" href="#outlier-check" title="Permalink to this headline">¶</a></h3>
+<p>Comparing the mean (22.53) and the median (21.2) it looks like the distribution might be right-skewed. This is more obvious looking at  distribution plots below, but I&#8217;ll also do an outlier check here using the traditional <img class="math" src="_images/math/89f73ca5e6baf83e0395202f2b902ba92cac599e.png" alt="Q1 - 1.5 \times IQR"/> for low outliers and <img class="math" src="_images/math/c458a2d577616ae38324d4edad8ee2da6b7af3c1.png" alt="Q3 + 1.5 \times IQR"/> for the higher outliers to see how many there might be.</p>
 <table border="1" class="docutils" id="id4">
-<caption><span class="caption-text">Client Features</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text">Outlier Count</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="50%" />
 <col width="50%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Variable</th>
+<tr class="row-odd"><th class="head">Description</th>
 <th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Low Outlier Limit (LOL)</td>
+<td>5.06</td>
+</tr>
+<tr class="row-odd"><td>LOL - min</td>
+<td>0.06</td>
+</tr>
+<tr class="row-even"><td>Upper Outlier Limit (UOL)</td>
+<td>36.96</td>
+</tr>
+<tr class="row-odd"><td>max - UOL</td>
+<td>13.04</td>
+</tr>
+<tr class="row-even"><td>Low Outlier Count</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>High Outlier Count</td>
+<td>38</td>
+</tr>
+</tbody>
+</table>
+<p>There aren&#8217;t an excessive number of outliers - about 8% of the median-values are above the upper outlier limit (UOL) and less than 1% below the lower-outlier limit. The difference between the maximum value of 50 and the UOL is 13.04, however, which is almost as large as the difference between the UOL and the median (15.76) so there might be an undue influence from the upper values if parametric statistics are used.</p>
+</div>
+<div class="section" id="plots">
+<h3>Plots<a class="headerlink" href="#plots" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/median_value_distribution.svg"><div align="center" class="align-center"><img src="_images/median_value_distribution.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/median_value_boxplots.svg"><div align="center" class="align-center"><img src="_images/median_value_boxplots.svg" /></div>
+</a>
+<p>The KDE/histogram and box-plot seem to confirm what was shown in the section on outliers, which is that there are some unusually high median-values in the data.</p>
+<a class="reference internal image-reference" href="_images/median_value_qqplot.svg"><div align="center" class="align-center"><img src="_images/median_value_qqplot.svg" /></div>
+</a>
+<p>The QQ-Plot shows that the distribution is initially fairly normal but the upper-third seems to come from a different distribution than the lower two-thirds.</p>
+<a class="reference internal image-reference" href="_images/median_value_cdf.svg"><div align="center" class="align-center"><img src="_images/median_value_cdf.svg" /></div>
+</a>
+<p>Looking at the distribution (histogram and KDE plot) and box-plot the median-values for the homes appear to be right-skewed. The CDF shows that about 90% of the homes are $35,000 or less (the 90th percentile for median-value is 34.8) and that there&#8217;s a change in the spread of the data around $25,000. The qq-plot and the other plots show that the median-values aren&#8217;t normally distributed.</p>
+</div>
+</div>
+<div class="section" id="possibly-significant-features">
+<h2>Possibly Significant Features<a class="headerlink" href="#possibly-significant-features" title="Permalink to this headline">¶</a></h2>
+<p>To get an idea of how the features are related to the median-value, I&#8217;ll plot some linear-regressions.</p>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_1.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_1.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_2.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_2.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_3.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_3.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_4.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_4.svg" /></div>
+</a>
+<a class="reference internal image-reference" href="_images/housing_data_regression_plots_5.svg"><div align="center" class="align-center"><img src="_images/housing_data_regression_plots_5.svg" /></div>
+</a>
+<p>Looking at the plots, the three features that I think are the most significant are <cite>lower_status (LSTAT)</cite>, <cite>nitric_oxide (NOX)</cite>, and <cite>rooms (RM)</cite>. The <cite>lower_status</cite> variable is the percent of the population of the town that is of &#8216;lower status&#8217; which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The <cite>nitric_oxide</cite> variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. <cite>rooms</cite> is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison and Rubinfeld, 1978).</p>
+</div>
+<div class="section" id="the-client">
+<h2>The Client<a class="headerlink" href="#the-client" title="Permalink to this headline">¶</a></h2>
+<p>As I mentioned previously, the main goal of this project is to create a model to predict the house price for a client. Here are the client&#8217;s values.</p>
+<table border="1" class="docutils" id="id5">
+<caption><span class="caption-text">Client Values</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>crime_rate</td>
+<td>11.95</td>
+</tr>
+<tr class="row-odd"><td>large_lots</td>
+<td>0.0</td>
+</tr>
+<tr class="row-even"><td>industrial</td>
+<td>18.1</td>
+</tr>
+<tr class="row-odd"><td>charles_river</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>nitric_oxide</td>
+<td>0.659</td>
+</tr>
+<tr class="row-odd"><td>rooms</td>
+<td>5.609</td>
+</tr>
+<tr class="row-even"><td>old_houses</td>
+<td>90.0</td>
+</tr>
+<tr class="row-odd"><td>distances</td>
+<td>1.385</td>
+</tr>
+<tr class="row-even"><td>highway_access</td>
+<td>24</td>
+</tr>
+<tr class="row-odd"><td>property_taxes</td>
+<td>680.0</td>
+</tr>
+<tr class="row-even"><td>pupil_teacher_ratio</td>
+<td>20.2</td>
+</tr>
+<tr class="row-odd"><td>proportion_blacks</td>
+<td>332.09</td>
+</tr>
+<tr class="row-even"><td>lower_status</td>
+<td>12.13</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="the-client-s-significant-features">
+<h3>The Client&#8217;s Significant Features<a class="headerlink" href="#the-client-s-significant-features" title="Permalink to this headline">¶</a></h3>
+<p>Now a comparison of the client&#8217;s values for the three features that I hypothesized might be the most significant along with the values from the data-set.</p>
+<table border="1" class="docutils" id="id6">
+<caption><span class="caption-text">Client Significant Features</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable</th>
+<th class="head">Client Value</th>
+<th class="head">Boston Q1</th>
+<th class="head">Boston Median</th>
+<th class="head">Boston Q3</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>lower_status</td>
 <td>12.13</td>
-</tr>
-<tr class="row-odd"><td>nitric_oxide</td>
-<td>0.66</td>
-</tr>
-<tr class="row-even"><td>rooms</td>
-<td>5.61</td>
-</tr>
-</tbody>
-</table>
-<table border="1" class="docutils" id="id5">
-<caption><span class="caption-text">Variables Summaries</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Variable</th>
-<th class="head">Min</th>
-<th class="head">Q1</th>
-<th class="head">Median</th>
-<th class="head">Q3</th>
-<th class="head">Max</th>
-<th class="head">Mean</th>
-<th class="head">Std</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>lower_status</td>
-<td>1.73</td>
 <td>6.95</td>
 <td>11.36</td>
 <td>16.96</td>
-<td>37.97</td>
-<td>12.65</td>
-<td>7.14</td>
 </tr>
 <tr class="row-odd"><td>nitric_oxide</td>
-<td>0.39</td>
+<td>0.66</td>
 <td>0.45</td>
 <td>0.54</td>
 <td>0.62</td>
-<td>0.87</td>
-<td>0.55</td>
-<td>0.12</td>
 </tr>
 <tr class="row-even"><td>rooms</td>
-<td>3.56</td>
+<td>5.61</td>
 <td>5.89</td>
 <td>6.21</td>
 <td>6.62</td>
-<td>8.78</td>
-<td>6.28</td>
-<td>0.70</td>
 </tr>
 </tbody>
 </table>
-<p>Comparing the values for the client to the median values for the data set as a whole shows that the client has a higher ratio of lower-status adults, more pollution and fewer rooms than the median suburbs so I would expect that the predicted value will be lower than the median.</p>
+<p>Comparing the values I guessed would be significant for the client to the median-values for the data set as a whole shows that the client has a higher ratio of lower-status adults, more pollution and fewer rooms than the median suburbs so I would expect that the predicted value will be lower than the median.</p>
+</div>
 </div>
 </div>
 

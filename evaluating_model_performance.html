@@ -5,11 +5,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Evaluating Model Performance &mdash; Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation</title>
+    <title>Evaluating Model Performance &mdash; Predicting Boston Housing Prices 2016.02.21 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.4/spacelab/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Project 1 (Predicting Boston Housing Prices) 2016.02.21 documentation" href="index.html" />
+    <link rel="top" title="Predicting Boston Housing Prices 2016.02.21 documentation" href="index.html" />
     <link rel="next" title="Analyzing Model Performance" href="analyzing_model_performance.html" />
     <link rel="prev" title="Statistical Analysis and Data Exploration" href="statistical_analysis.html" />
 <meta charset='utf-8'>
@@ -49,7 +49,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="index.html">
-          Project 1 (Predicting Boston Housing Prices)</a>
+          Predicting Boston Housing Prices</a>
         <span class="navbar-text navbar-version pull-left"><b>2016.02.21</b></span>
       </div>
 
@@ -66,10 +66,10 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="statistical_analysis.html">Statistical Analysis and Data Exploration</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Evaluating Model Performance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="analyzing_model_performance.html">Analyzing Model Performance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="model_prediction.html">Model Prediction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistical_analysis.html"> Statistical Analysis and Data Exploration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href=""> Evaluating Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyzing_model_performance.html"> Analyzing Model Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_prediction.html"> Model Prediction</a></li>
 </ul>
 </ul>
 </li>
@@ -84,11 +84,13 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Evaluating Model Performance</a><ul>
-<li><a class="reference internal" href="#question-3">Question 3</a></li>
-<li><a class="reference internal" href="#question-4">Question 4</a></li>
-<li><a class="reference internal" href="#step-4-final-step">Step 4 (Final Step)</a></li>
-<li><a class="reference internal" href="#question-5">Question 5</a></li>
-<li><a class="reference internal" href="#question-6">Question 6</a></li>
+<li><a class="reference internal" href="#splitting-the-data">Splitting the Data</a></li>
+<li><a class="reference internal" href="#choosing-a-performance-metric">Choosing a Performance Metric</a></li>
+<li><a class="reference internal" href="#decisiontreeregressor">DecisionTreeRegressor</a></li>
+<li><a class="reference internal" href="#grid-search">Grid Search</a><ul>
+<li><a class="reference internal" href="#cross-validation">Cross-Validation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -140,30 +142,33 @@
       
   <div class="section" id="evaluating-model-performance">
 <h1>Evaluating Model Performance<a class="headerlink" href="#evaluating-model-performance" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="question-3">
-<h2>Question 3<a class="headerlink" href="#question-3" title="Permalink to this headline">¶</a></h2>
-<p><em>Why do we split the data into training and testing subsets for our model?</em></p>
+<p>Here I&#8217;ll discuss splitting the data for training and testing, the performance metric I chose, the algorithm used for the modeling and how the hyper-parameters for the model were chosen.</p>
+<div class="section" id="splitting-the-data">
+<h2>Splitting the Data<a class="headerlink" href="#splitting-the-data" title="Permalink to this headline">¶</a></h2>
+<p>First a function named <cite>shuffle_split_data</cite> was created that acts as an alias for the <cite>train_test_split</cite> function from <cite>sklearn</cite>. The main difference is that the ordering of the data-sets is changed from both x&#8217;s followed by both y&#8217;s to both training sets followed by both testing sets. In this case a 70% training data, 30% test data split was used.</p>
 <p>We split the data into training and testing subsets so that we can assess the model using a different data-set than what it
 was trained on, thus reducing the likelihood of overfitting the model to the training data and increasing the likelihood that it will generalize to other data.</p>
 </div>
-<div class="section" id="question-4">
-<h2>Question 4<a class="headerlink" href="#question-4" title="Permalink to this headline">¶</a></h2>
-<p><em>Which performance metric below did you find was most appropriate for predicting housing prices and analyzing the total error. Why?</em> - <em>Accuracy</em> - <em>Precision</em> - <em>Recall</em> - <em>F1 Score</em> - <em>Mean Squared Error (MSE)</em> - <em>Mean Absolute Error (MAE)</em></p>
-<p>I chose <em>Mean Squared Error</em> as the most appropriate performance metric for predicting housing prices because we are predicting a numeric value (a regression problem) and while Mean Absolute Error could also be used, the MSE emphasizes larger errors more and so I felt it would be preferable.</p>
+<div class="section" id="choosing-a-performance-metric">
+<h2>Choosing a Performance Metric<a class="headerlink" href="#choosing-a-performance-metric" title="Permalink to this headline">¶</a></h2>
+<p>There are several possible <a class="reference external" href="http://scikit-learn.org/stable/modules/model_evaluation.html#regression-metrics">regression metrics</a> to use, but I chose <em>Mean Squared Error</em> as the most appropriate performance metric for predicting housing prices because we are predicting a numeric value (a regression problem) and while <cite>Mean Absolute Error</cite>, <cite>Median Absolute Error</cite>, <cite>Explained Variance Score</cite>, or <cite>r2_score</cite> could also be used, I wanted a metric that would be based on the errors in the model and the MSE emphasizes larger errors more and so I felt it would be preferable.</p>
+<p>The <em>Mean Squared Error</em> is an average of the squared differences between predicted values and the actual values.</p>
+<div class="math">
+<p><img src="_images/math/15d8d8ff6d3e189c2465933ca0972ca04cefbab1.png" alt="MSE(y, \hat{y}) = \frac{1}{n}\sum_{i=0}^{n-1} (y_i - \hat{y}_i)^2"/></p>
+</div></div>
+<div class="section" id="decisiontreeregressor">
+<h2>DecisionTreeRegressor<a class="headerlink" href="#decisiontreeregressor" title="Permalink to this headline">¶</a></h2>
+<p>The model was built using sklearn&#8217;s <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html">DecisionTreeRegressor</a>, a non-parametric, tree-based algorithm (using the <a class="reference external" href="http://scikit-learn.org/stable/modules/tree.html#tree-algorithms-id3-c4-5-c5-0-and-cart">Classification and Regression Trees (CART)</a> tree algorithm).</p>
 </div>
-<div class="section" id="step-4-final-step">
-<h2>Step 4 (Final Step)<a class="headerlink" href="#step-4-final-step" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="question-5">
-<h2>Question 5<a class="headerlink" href="#question-5" title="Permalink to this headline">¶</a></h2>
-<p><em>What is the grid search algorithm and when is it applicable?</em></p>
-<p>The <a class="reference external" href="http://scikit-learn.org/stable/modules/grid_search.html">GridSearchCV</a> algorithm exhaustively works through the parameters it is given to find the parameters that create the best model using cross-validation. Because it is exhaustive it is appropriate when the model-creation is not excessively computationally intensive, otherwise its run-time might be infeasible.</p>
-</div>
-<div class="section" id="question-6">
-<h2>Question 6<a class="headerlink" href="#question-6" title="Permalink to this headline">¶</a></h2>
-<p><em>What is cross-validation, and how is it performed on a model? Why would cross-validation be helpful when using grid search?</em></p>
-<p>Cross-validation is a method of testing a model by partitioning the data into subsets, with each subset taking a turn as the test set while the data not being used as a test-set is used as the training set. This allows the model to be tested against all the data-points, rather than having some data reserved exclusively as training data and the remainder exclusively as testing data.</p>
+<div class="section" id="grid-search">
+<h2>Grid Search<a class="headerlink" href="#grid-search" title="Permalink to this headline">¶</a></h2>
+<p>A grid search was used to find the optimal parameters (tree depth) for the DecisionTreeRegressor. The <a class="reference external" href="http://scikit-learn.org/stable/modules/grid_search.html">GridSearchCV</a> algorithm exhaustively works through the parameters it is given to find the parameters that create the best model using cross-validation. Because it is exhaustive it is appropriate when the model-creation is not excessively computationally intensive, otherwise its run-time might be infeasible.</p>
+<div class="section" id="cross-validation">
+<h3>Cross-Validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned, <cite>GridSearchCV</cite> uses <em>cross-validation</em> to find the optimal parameters for a model. Cross-validation is a method of testing a model by partitioning the data into subsets, with each subset taking a turn as the test set while the data not being used as a test-set is used as the training set. This allows the model to be tested against all the data-points, rather than having some data reserved exclusively as training data and the remainder exclusively as testing data.</p>
 <p>Because grid-search attempts to find the optimal parameters for a model, it&#8217;s advantageous to use the same training and testing data in each case (case meaning a particular permutation of the parameters) so that the comparisons are equitable. One could simply perform an initial train-validation-test split and use this throughout the grid search, but this then risks the possibility that there was something in the initial split that will bias the outcome. By using all the partitions of the data as both test and training data, as cross-validation does, the chance of a bias in the splitting is reduced and at the same time all the parameter permutations are given the same data to be tested against.</p>
+<p>In this case I used <em>k=10</em> for the k-fold cross validation that the <cite>GridSearchCV</cite> uses.</p>
+</div>
 </div>
 </div>
 
