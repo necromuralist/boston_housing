@@ -17,6 +17,7 @@ from boston_housing.evaluating_model_performance import performance_metric
 from boston_housing.common import print_image_directive
 
 seaborn.set_style('whitegrid')
+IN_PWEAVE = __name__ in ('builtin', '__builtin__')
 DEBUG = strtobool(os.environ.get('DEBUG', 'off'))
 city_data = load_boston()
 housing_features = city_data.data
@@ -87,7 +88,6 @@ def model_complexity(X_train, y_train, X_test, y_test):
     if DEBUG:
         print( "Creating a model complexity graph. . . ")
 
-
     # We will vary the max_depth of a decision tree model from 1 to 14
     max_depth = numpy.arange(1, 14)
     train_err = numpy.zeros(len(max_depth))
@@ -118,8 +118,10 @@ def model_complexity(X_train, y_train, X_test, y_test):
     filename = 'model_complexity'
     print_image_directive(filename, figure)
 
-with warnings.catch_warnings():
-    warnings.simplefilter('ignore')
-    learning_curves(X_train, y_train, X_test, y_test)
+if IN_PWEAVE:
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        learning_curves(X_train, y_train, X_test, y_test)
 
-model_complexity(X_train, y_train, X_test, y_test)
+if IN_PWEAVE:
+    model_complexity(X_train, y_train, X_test, y_test)

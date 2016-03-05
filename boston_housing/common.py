@@ -200,7 +200,7 @@ def print_properties(data_type, values, construction, missing='None', table_form
                    headers='Property Description'.split(),
                    tablefmt=table_format))
 
-def print_image_directive(filename, figure, scale='95%'):
+def print_image_directive(filename, figure, scale='95%', print_only=False):
     """
     saves and prints the rst image directive
 
@@ -209,11 +209,13 @@ def print_image_directive(filename, figure, scale='95%'):
      - `filename`: filename to save the image (without 'figures/' or file extension)
      - `figure`: matplotlib figure to save the image
      - `scale: percent scale for the image
+     - `print_only`: assume the figure exists, print directive only
     :postcondition: figure saved, rst image directive output
     """
     path = os.path.join('figures/', filename)
-    figure.savefig(path + '.svg')
-    figure.savefig(path + '.pdf')
+    if not print_only:
+        figure.savefig(path + '.svg')
+        figure.savefig(path + '.pdf')
     print(".. image:: {0}.*".format(path))
     print("   :align: center")
     print("   :scale: {0}".format(scale))

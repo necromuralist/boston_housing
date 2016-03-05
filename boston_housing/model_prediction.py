@@ -1,6 +1,4 @@
-Model Prediction
-================
-<<name='imports', echo=False>>=
+
 # python standard library
 import os
 import pickle
@@ -16,19 +14,14 @@ from sklearn.datasets import load_boston
 from boston_housing.common import load_housing_data, CLIENT_FEATURES
 from boston_housing.evaluating_model_performance import fit_model
 from boston_housing.common import ValueCountsPrinter, print_image_directive
-@
-<<name='setup', echo=False>>=
+
 housing_frame = pandas.read_hdf('data/housing_data.h5', 'table')
 housing_data = load_housing_data()
 housing_features = housing_data.features
 housing_prices = housing_data.prices
 seaborn.set_style('whitegrid')
 seaborn.set_palette('husl')
-@
 
-To find the 'best' model I ran the `fit_model` function 1,000 times and took the `best_params_` (max-depth) and `best_score_` (negative MSE) for each trial.
-
-<<name='find_optimal', echo=False>>=
 # there appears to be a bug that will cause parallel jobs to break
 # unless you set the environment variable JOBLIB_START_METHOD to 'forkserver'
 # also may not work on some versions of python 2
@@ -48,8 +41,7 @@ else:
 params_scores = [(model.best_params_, model.best_score_) for model in models]
 parameters = numpy.array([param_score[0]['max_depth'] for param_score in params_scores])
 scores = numpy.array([param_score[1] for param_score in params_scores])
-@
-<<name='best_models_plot', echo=False, include=False, results='sphinx'>>=
+
 best_models = pandas.DataFrame.from_dict({'parameter':parameters, 'score': scores})
 x_labels = sorted(best_models.parameter.unique())
 figure = plot.figure()
@@ -59,19 +51,11 @@ grid = seaborn.boxplot('parameter', 'score', data = best_models,
 title = axe.set_title("Best Parameters vs Best Scores")
 filename = 'best_parameters.png'
 print_image_directive(filename, figure)
-@
 
-.. csv-table: Best Score
-   :header: Description, Value
-<<name='best_score', echo=False, results='sphinx'>>=
 best_index = numpy.where(scores==numpy.max(scores))
 print("   Best Score, {0:.2f}".format(scores[best_index][0]))
 print("   max-depth parameter with best score,{0}".format(parameters[best_index][0]))
-@
 
-.. csv-table:: Parameter Counts
-   :header: Max-Depth, Count
-<<name='bin_counts', echo=False, results='sphinx'>>=
 bin_range = best_models.parameter.max() - best_models.parameter.min()
 bins = pandas.cut(best_models.parameter,
                   bin_range)
@@ -80,57 +64,23 @@ for bounds in counts.index:
     parameter = bounds.split(',')[0].lstrip('()')
     print('   {0},{1}'.format(int(round(float(parameter))),
                               counts.loc[bounds][0]))
-@
 
-.. csv-table:: Median Scores
-   :header: Max-Depth, Median Score
-<<name='best_median_scores', echo=False, results='sphinx'>>=
 parameter_group = pandas.groupby(best_models, 'parameter')
 medians = parameter_group.score.median()
 for max_depth in medians.index:
     print('   {0},{1:.2f}'.format(max_depth, medians.loc[max_depth]))
-@
 
-.. csv-table:: Max Scores
-   :header: Max-Depth, Max Score
-<<name='best_scores', echo=False, results='sphinx'>>=
 maxes = parameter_group.score.max()
 for max_depth in maxes.index:
     print('   {0},{1:.2f}'.format(max_depth, maxes.loc[max_depth]))
-@
 
-.. note:: Since the `GridSearchCV` normally tries to maximize the output of the scoring-function, but the goal in this case was to minimize it, the scores are negations of the MSE, thus the higher the score, the lower the MSE.
-
-While a max-depth of 4 was the most common best-parameter, the max-depth of 5 was the median max-depth, had the highest median score, and had the highest overall score, so I will say that the optimal `max_depth` parameter is 5. This is in line with what I had guessed, based on the Complexity Performance plot.
-
-Predicting the Client's Price
------------------------------
-
-Using the model that had the lowest MSE (30.46) out of the 1,000 generated, I then made a prediction for the price of the client's house.
-
-.. csv-table:: Predicted Price
-   :delim: ;
-<<name='predicted_price', echo=False, results='sphinx'>>=
 best_model = models[best_index[0][0]]
 sale_price = best_model.predict(CLIENT_FEATURES)
 predicted = sale_price[0] * 1000
 actual_median = housing_frame.median_value.median() * 1000
 print("   Predicted value of client's home; ${0:,.2f}".format(predicted))
 print("   Difference between median and predicted; ${0:,.2f}".format(actual_median - predicted))
-@
 
-My three chosen features (`lower_status`, `nitric_oxide`, and `rooms`) seemed to indicate that the client's house might be a lower-valued house, and the predicted value was about $232 less than the median median-value, so it appears that our model predicts that the client has a below-median-value house.
-
-.. '
-
-Confidence Interval
-~~~~~~~~~~~~~~~~~~~
-
-Although this isn't an inferential analysis, I'll calculate the 95% Confidence Interval for the median-value so that I'll have a range to compare the prediction to. Since the data isn't symmetric I'll use a bootstrapped confidence interval (bias-corrected and accelerated (BCA))of the median instead of one based on the standard error.
-
-.. '
-
-<<name='confidence_interval', echo=False, results='sphinx'>>=
 filename = 'pickles/confidence_interval.pkl'
 if not os.path.isfile(filename):
     alpha = 0.05
@@ -145,11 +95,3 @@ else:
         confidence_interval = pickle.load(unpickler)
 print("95% CI [{0:.2f}, {1:.2f}]".format(confidence_interval['low'],
                                          confidence_interval['high']))
-@
-
-Our prediction for the client's house falls within a 95% confidence interval for the median, so although I predicted that it would be below the median, there's insufficient evidence to conclude that it differs from the median house price.
-
-Assessing the Model
--------------------
-
-I think that this model seems reasonable for the given data (Boston Suburbs in 1970), but I think that I might be hesitant to predict the value for a specific house using it, given that we are using aggregate-values for entire suburbs, not values for individual houses. I would also think that separating out the upper-class houses would give a better model for certain clients, given the right-skew of the data. Also, the median MSE for the best model was ~32 so taking the square root of this gives an 'average' error of about $5,700, which seems fairly high, given the low median-values for the houses. I think that the model gives a useful ball-park-figure estimate, but I think I'd have to qualify the certainty of prediction for future clients, noting also the age of the data and not extrapolating much beyond 1970.

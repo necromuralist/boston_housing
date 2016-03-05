@@ -2,6 +2,11 @@ Statistical Analysis and Data Exploration
 =========================================
 
 <<name='imports', echo=False>>=
+# python standard library
+import os
+import pickle
+from distutils.util import strtobool
+
 # third-party
 import matplotlib
 matplotlib.use("Agg")
@@ -9,6 +14,7 @@ import matplotlib.pyplot as plot
 import numpy
 import pandas
 import seaborn
+from scikits.bootstrap import ci
 import statsmodels.api as statsmodels
 
 # this code
@@ -18,6 +24,7 @@ from boston_housing.common import print_image_directive
 <<name='plot_setup', echo=False>>=
 seaborn.set_style('whitegrid')
 seaborn.color_palette('hls')
+REDO_FIGURES = strtobool(os.environ.get('REDO_FIGURES', 'off'))
 @
 
 <<name='data_load', echo=False>>=
@@ -26,12 +33,16 @@ housing_data = pandas.DataFrame(housing_features, columns=feature_names)
 housing_data['median_value'] = housing_prices
 @
 
+This section is an exploratory analysis of the Boston Housing data which will introduce the data and some changes that I made, summarize the median-value data, then look at the features to make an initial hypothesis about the value of the client's home.
+
+.. '
+
 The Data
 --------
 
-The data was taken from the `sklearn.load_boston <http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html>`_ function, which itself cites the `UCI Machine Learning Repository <http://archive.ics.uci.edu/ml/datasets/Housing>`_ as their source for the data. The data gives values for various features of different suburbs of Boston as well as the median-value for homes in each suburb. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.
+The data was taken from the `sklearn.load_boston <http://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_boston.html>`_ function (`sklearn` cites the `UCI Machine Learning Repository <http://archive.ics.uci.edu/ml/datasets/Housing>`_ as their source for the data). The data gives values for various features of different suburbs of Boston as well as the median-value for homes in each suburb. The features were chosen to reflect various aspects believed to influence the price of houses including the structure of the house (age and spaciousness), the quality of the neighborhood, transportation access to employment centers and highways, and pollution.
 
-Here is the description of the data variables provided by sklearn.
+There are 14 variables in the data set (13 features and the median-value target). Here is the description of the data variables provided by sklearn.
 
 .. csv-table:: Attribute Information (in order)
    :header: Variable Name, Description
@@ -52,12 +63,12 @@ Here is the description of the data variables provided by sklearn.
    LSTAT    :% lower status of the population
    MEDV     :Median value of owner-occupied homes in $1000's
 
-.. note:: The data comes from the 1970 U.S. Census so its values don't (necessarily) reflect current values.
+.. note:: The data comes from the 1970 U.S. Census and the `median-values` have not been inflation-adjusted.
 
 Cleaning the Data
------------------
+~~~~~~~~~~~~~~~~~
 
-Since there are no missing data points, there isn't much to do to clean the data, but the odd variable names increase the likelihood of error so I'm going to expand them to full variable names.
+There are no missing data points but the odd variable names are sometimes confusing so I'm going to expand them to full variable names.
 
 <<name='renaming', echo=False>>=
 new_columns =  ('crime_rate',
@@ -106,22 +117,16 @@ for index, old_name in enumerate(old_names):
     print("   {0},{1}".format(old_name, new_columns[index]))
 @
 
-Summary Statistics
-------------------
+Median Value
+------------
+
+The target variable for this data-set is the `median-value` of houses within a given suburb. After presenting some summary statistics for the `median-value` I'll make some plots to get a sense of the shape of the data.
 
 <<name='describe', echo=False, results='sphinx'>>=
 description = housing_data.describe()
 @
-To get a sense of the data I'll look at the shape of the data as well as some summary statistics for the median-value.
 
 .. '
-
-.. csv-table:: Boston Housing Data Shape
-   :header: Instances, Features
-<<name='data_shape', echo=False, results='sphinx'>>=
-print("   {0},{1}".format(len(housing_prices),
-                          len(feature_names)))
-@
 
 .. csv-table:: Boston Housing median-value statistics (in $1000's)
    :header: Item, Value
@@ -129,12 +134,41 @@ print("   {0},{1}".format(len(housing_prices),
 for item in description.index:
     formatter = "   {0},{1:.0f}" if item == 'count' else '   {0},{1:.2f}'
     print(formatter.format(item, description.median_value.loc[item]))
+q_3 = description.median_value.loc["75%"]
+q_1 = description.median_value.loc["25%"]
+iqr = (q_3 - q_1)
+assert iqr - 7.975 < 0.001
+print("   IQR,{0}".format(iqr))
 @
 .. '
 
-Plots
------
+Outlier Check
+~~~~~~~~~~~~~
 
+Comparing the mean (22.53) and the median (21.2) it looks like the distribution might be right-skewed. This is more obvious looking at  distribution plots below, but I'll also do an outlier check here using the traditional :math:`Q1 - 1.5 \times IQR` for low outliers and :math:`Q3 + 1.5 \times IQR` for the higher outliers to see how many there might be.
+
+.. '
+
+.. csv-table:: Outlier Count
+   :header: Description, Value
+<<name='outliers', echo=False, results='sphinx'>>=
+outlier_limit = 1.5 * iqr
+low_outlier_limit = q_1 - outlier_limit
+high_outlier_limit = q_3 + outlier_limit
+print("   Low Outlier Limit (LOL),{0:.2f}".format(low_outlier_limit))
+print("   LOL - min,{0:.2f}".format(low_outlier_limit - housing_data.median_value.min()))
+print("   Upper Outlier Limit (UOL),{0:.2f}".format(high_outlier_limit))
+print("   max - UOL,{0:.2f}".format(housing_data.median_value.max() - high_outlier_limit))
+print("   Low Outlier Count,{0}".format(len(housing_data.median_value[housing_data.median_value < low_outlier_limit])))
+print('   High Outlier Count,{0}'.format(len(housing_data.median_value[housing_data.median_value > high_outlier_limit])))
+@
+
+There aren't an excessive number of outliers - about 8% of the median-values are above the upper outlier limit (UOL) and less than 1% below the lower-outlier limit. The difference between the maximum value of 50 and the UOL is 13.04, however, which is almost as large as the difference between the UOL and the median (15.76) so there might be an undue influence from the upper values if parametric statistics are used.
+
+.. '
+
+Plots
+~~~~~
 
 <<name='distribution', results='sphinx', echo=False, include=False>>=
 filename = 'median_value_distribution'
@@ -143,7 +177,7 @@ axe = figure.gca()
 grid = seaborn.distplot(housing_data.median_value, ax=axe)
 axe.axvline(housing_data.median_value.mean(), label='mean')
 axe.axvline(housing_data.median_value.median(), label='median',
-            color=seaborn.xkcd_rgb['medium green'])
+            color='firebrick')
 axe.legend()
 title = axe.set_title("Boston Housing Median Values")
 print_image_directive(filename, figure, scale='95%')
@@ -158,6 +192,7 @@ title = axe.set_title("Boston Housing Median Values")
 print_image_directive(filename, figure, scale='95%')
 @
 
+The KDE/histogram and box-plot seem to confirm what was shown in the section on outliers, which is that there are some unusually high median-values in the data.
 
 <<name="qqplot", results='sphinx', echo=False, include=False>>=
 def qqline_s(ax, x, y, dist, fmt='r-', **plot_kwargs):
@@ -191,7 +226,9 @@ qqline_s(ax=axe, dist=prob_plot.dist,
 
 title = axe.set_title("Boston Housing Median Values (QQ-Plot)")
 print_image_directive(filename, figure)
-@ 
+@
+
+The QQ-Plot shows that the distribution is initially fairly normal but the upper-third seems to come from a different distribution than the lower two-thirds.
 
 <<name='cdf', echo=False, results='sphinx', include=False>>=
 filename = 'median_value_cdf'
@@ -199,6 +236,7 @@ figure = plot.figure()
 axe = figure.gca()
 grid = plot.plot(sorted(housing_data.median_value), numpy.linspace(0, 1, housing_data.median_value.count()))
 title = axe.set_title("Boston Housing Median Values (CDF)")
+axe.axhline(0.5, color='firebrick')
 axe.set_xlabel("Median Home Value in $1,000's")
 print_image_directive(filename, figure)
 @
@@ -207,9 +245,7 @@ print_image_directive(filename, figure)
 percentile_90 = housing_data.quantile(.90).median_value
 @
 
-Looking at the distribution (histogram and KDE plot) and box-plot the median-values for the homes appear to be right-skewed. The CDF shows that about 90% of the homes are $35,000 or less (the 90th percentile for median-value is 34.8). The qq-plot and the other plots show that the median-values aren't normally distributed.
-
-.. '
+Looking at the distribution (histogram and KDE plot) and box-plot the median-values for the homes appear to be right-skewed. The CDF shows that about 90% of the homes are $35,000 or less (the 90th percentile for median-value is 34.8) and that there's a change in the spread of the data around $25,000. The qq-plot and the other plots show that the median-values aren't normally distributed.
 
 <<name='variable_summaries', echo=False, results='sphinx', wrap=False>>=
 def summary_table(variables, title='Variables Summaries',
@@ -232,10 +268,8 @@ def summary_table(variables, title='Variables Summaries',
         print("   {0},{1}".format(variable, stats))                                                   
     return
 @
-Question 1
-----------
-
-*Of the features available for each data point, choose three that you feel are significant and give a brief description for each of what they measure.*
+Possibly Significant Features
+-----------------------------
 
 To get an idea of how the features are related to the median-value, I'll plot some linear-regressions.
 
@@ -247,40 +281,66 @@ rows = (len(features) // 3)
 slice_start = 0
 
 for row in range(1, rows + 1):
-    filename = 'housing_data_regression_plots_{0}.png'.format(row)
-    grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:row * 3], y_vars=['median_value'])
-    grid.map(seaborn.regplot)
-    print_image_directive(filename, grid)
+    filename = 'housing_data_regression_plots_{0}'.format(row)
+    if REDO_FIGURES:
+        grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:row * 3], y_vars=['median_value'])
+        grid.map(seaborn.regplot)
+    print_image_directive(filename, grid, print_only=not REDO_FIGURES)
     slice_start = row * 3
 @
 
 <<name='last_row', echo=False, include=False, results='sphinx'>>=
 if rows % 3:
     print()
-    filename = 'figures/housing_data_regression_plots_{0}.png'.format(row + 1)
-    grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:slice_start + rows % 3], y_vars=['median_value'])
-    grid.map(seaborn.regplot, ci=95)
-    grid.savefig(filename)
-    print('.. image:: {0}'.format(filename))
+    filename = 'housing_data_regression_plots_{0}'.format(row + 1)
+    if REDO_FIGURES:
+        grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:slice_start + rows % 3], y_vars=['median_value'])
+        grid.map(seaborn.regplot, ci=95)
+    print_image_directive(filename, grid, print_only=not REDO_FIGURES)
 @
 
-Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison, 1978).
+Looking at the plots, the three features that I think are the most significant are `lower_status (LSTAT)`, `nitric_oxide (NOX)`, and `rooms (RM)`. The `lower_status` variable is the percent of the population of the town that is of 'lower status' which is defined in this case as being an adult with less than a ninth-grade education or a male worker that is classified as a laborer. The `nitric_oxide` variable represents the annual average parts per million of nitric-oxide measured in the air and is thus a stand-in for pollution. `rooms` is  the average number of rooms per dwelling, representing the spaciousness of houses in the suburb (Harrison and Rubinfeld, 1978).
 
-Question 2
+The Client
 ----------
 
-*Using your client's feature set ``CLIENT_FEATURES``, which values correspond with the features you've chosen above?*
+As I mentioned previously, the main goal of this project is to create a model to predict the house price for a client. Here are the client's values.
 
-.. csv-table:: Client Features
-   :header: Variable, Value
+.. '
+
+.. csv-table:: Client Values
+   :header: Feature, Value
+<<name='client_values', echo=False, results='sphinx'>>=
+for index, feature in enumerate(new_columns):
+    print("   {0},{1}".format(feature, CLIENT_FEATURES[0][index]))
+@
+                                                       
+The Client's Significant Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. '
+
+Now a comparison of the client's values for the three features that I hypothesized might be the most significant along with the values from the data-set.
+
+.. '
+
+.. csv-table:: Client Significant Features
+   :header: Variable, Client Value, Boston Q1, Boston Median, Boston Q3
 <<name='client_values', echo=False, results='sphinx'>>=
 chosen_variables = ('lower_status', 'nitric_oxide', 'rooms')
+
 for variable in chosen_variables:
-    print("    {0},{1:.2f}".format(variable, client_features[variable][0]))
+    boston_variable = housing_data[variable]
+    q_1 = boston_variable.quantile(.25)
+    median = boston_variable.median()
+    q_3 = boston_variable.quantile(.75)
+
+    print("    {v},{c:.2f},{q1:.2f},{m:.2f},{q3:.2f}".format(v=variable,
+                                                             c=client_features[variable][0],
+                                                             q1=q_1,
+                                                             m=median,
+                                                             q3=q_3))
 @
 
-<<name='variable_summaries', echo=False, results='sphinx', wrap=False>>=
-summary_table(chosen_variables)
-@
+Comparing the values I guessed would be significant for the client to the median-values for the data set as a whole shows that the client has a higher ratio of lower-status adults, more pollution and fewer rooms than the median suburbs so I would expect that the predicted value will be lower than the median.
 
-Comparing the values for the client to the median values for the data set as a whole shows that the client has a higher ratio of lower-status adults, more pollution and fewer rooms than the median suburbs so I would expect that the predicted value will be lower than the median.

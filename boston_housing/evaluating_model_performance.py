@@ -16,6 +16,7 @@ city_data = load_boston()
 housing_prices = city_data.target
 housing_features = city_data.data
 DEBUG = strtobool(os.environ.get('DEBUG', 'off'))
+IN_PWEAVE = __name__ in ('builtin', '__bultin__')
 
 def shuffle_split_data(X, y, test_size=.3, random_state=0):
     """ 
@@ -42,7 +43,6 @@ def performance_metric(y_true, y_predict):
     :return: mean_squared_error for the prediction
     """
     return mean_squared_error(y_true, y_predict)
-
 
 expected = 32.167
 tolerance = 0.01

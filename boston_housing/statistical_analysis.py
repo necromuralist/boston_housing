@@ -1,4 +1,9 @@
 
+# python standard library
+import os
+import pickle
+from distutils.util import strtobool
+
 # third-party
 import matplotlib
 matplotlib.use("Agg")
@@ -6,6 +11,7 @@ import matplotlib.pyplot as plot
 import numpy
 import pandas
 import seaborn
+from scikits.bootstrap import ci
 import statsmodels.api as statsmodels
 
 # this code
@@ -14,6 +20,7 @@ from boston_housing.common import print_image_directive
 
 seaborn.set_style('whitegrid')
 seaborn.color_palette('hls')
+REDO_FIGURES = strtobool(os.environ.get('REDO_FIGURES', 'off'))
 
 housing_features, housing_prices, feature_names = load_housing_data()
 housing_data = pandas.DataFrame(housing_features, columns=feature_names)
@@ -59,12 +66,24 @@ for index, old_name in enumerate(old_names):
 
 description = housing_data.describe()
 
-print("   {0},{1}".format(len(housing_prices),
-                          len(feature_names)))
-
 for item in description.index:
     formatter = "   {0},{1:.0f}" if item == 'count' else '   {0},{1:.2f}'
     print(formatter.format(item, description.median_value.loc[item]))
+q_3 = description.median_value.loc["75%"]
+q_1 = description.median_value.loc["25%"]
+iqr = (q_3 - q_1)
+assert iqr - 7.975 < 0.001
+print("   IQR,{0}".format(iqr))
+
+outlier_limit = 1.5 * iqr
+low_outlier_limit = q_1 - outlier_limit
+high_outlier_limit = q_3 + outlier_limit
+print("   Low Outlier Limit (LOL),{0:.2f}".format(low_outlier_limit))
+print("   LOL - min,{0:.2f}".format(low_outlier_limit - housing_data.median_value.min()))
+print("   Upper Outlier Limit (UOL),{0:.2f}".format(high_outlier_limit))
+print("   max - UOL,{0:.2f}".format(housing_data.median_value.max() - high_outlier_limit))
+print("   Low Outlier Count,{0}".format(len(housing_data.median_value[housing_data.median_value < low_outlier_limit])))
+print('   High Outlier Count,{0}'.format(len(housing_data.median_value[housing_data.median_value > high_outlier_limit])))
 
 filename = 'median_value_distribution'
 figure = plot.figure()
@@ -72,7 +91,7 @@ axe = figure.gca()
 grid = seaborn.distplot(housing_data.median_value, ax=axe)
 axe.axvline(housing_data.median_value.mean(), label='mean')
 axe.axvline(housing_data.median_value.median(), label='median',
-            color=seaborn.xkcd_rgb['medium green'])
+            color='firebrick')
 axe.legend()
 title = axe.set_title("Boston Housing Median Values")
 print_image_directive(filename, figure, scale='95%')
@@ -121,6 +140,7 @@ figure = plot.figure()
 axe = figure.gca()
 grid = plot.plot(sorted(housing_data.median_value), numpy.linspace(0, 1, housing_data.median_value.count()))
 title = axe.set_title("Boston Housing Median Values (CDF)")
+axe.axhline(0.5, color='firebrick')
 axe.set_xlabel("Median Home Value in $1,000's")
 print_image_directive(filename, figure)
 
@@ -151,22 +171,34 @@ rows = (len(features) // 3)
 slice_start = 0
 
 for row in range(1, rows + 1):
-    filename = 'housing_data_regression_plots_{0}.png'.format(row)
-    grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:row * 3], y_vars=['median_value'])
-    grid.map(seaborn.regplot)
-    print_image_directive(filename, grid)
+    filename = 'housing_data_regression_plots_{0}'.format(row)
+    if REDO_FIGURES:
+        grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:row * 3], y_vars=['median_value'])
+        grid.map(seaborn.regplot)
+    print_image_directive(filename, grid, print_only=not REDO_FIGURES)
     slice_start = row * 3
 
 if rows % 3:
     print()
-    filename = 'figures/housing_data_regression_plots_{0}.png'.format(row + 1)
-    grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:slice_start + rows % 3], y_vars=['median_value'])
-    grid.map(seaborn.regplot, ci=95)
-    grid.savefig(filename)
-    print('.. image:: {0}'.format(filename))
+    filename = 'housing_data_regression_plots_{0}'.format(row + 1)
+    if REDO_FIGURES:
+        grid = seaborn.PairGrid(housing_data, x_vars=features[slice_start:slice_start + rows % 3], y_vars=['median_value'])
+        grid.map(seaborn.regplot, ci=95)
+    print_image_directive(filename, grid, print_only=not REDO_FIGURES)
+
+for index, feature in enumerate(new_columns):
+    print("   {0},{1}".format(feature, CLIENT_FEATURES[0][index]))
 
 chosen_variables = ('lower_status', 'nitric_oxide', 'rooms')
-for variable in chosen_variables:
-    print("    {0},{1:.2f}".format(variable, client_features[variable][0]))
 
-summary_table(chosen_variables)
+for variable in chosen_variables:
+    boston_variable = housing_data[variable]
+    q_1 = boston_variable.quantile(.25)
+    median = boston_variable.median()
+    q_3 = boston_variable.quantile(.75)
+
+    print("    {v},{c:.2f},{q1:.2f},{m:.2f},{q3:.2f}".format(v=variable,
+                                                             c=client_features[variable][0],
+                                                             q1=q_1,
+                                                             m=median,
+                                                             q3=q_3))
