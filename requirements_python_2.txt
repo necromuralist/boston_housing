@@ -30,7 +30,7 @@ nbconvert==4.1.0
 nbformat==4.0.1
 notebook==6.4.12
 numexpr==2.5
-numpy==1.10.4
+numpy==1.22.0
 pandas==0.17.1
 path.py==8.1.2
 patsy==0.4.1
