@@ -42,7 +42,7 @@ ptpython==0.29
 ptyprocess==0.5.1
 pudb==2015.4.1
 Pweave==0.24
-Pygments==2.7.4
+Pygments==2.15.0
 pyparsing==2.1.0
 python-dateutil==2.4.2
 pytz==2015.7
